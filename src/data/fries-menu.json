@@ -1,0 +1,130 @@
+{
+  "_nota": "Transcrito directamente del menú oficial enviado por el cliente. Imágenes de producto pendientes — usan el placeholder de public/media/fries/hero.png hasta tener fotos reales en public/images/fries/.",
+  "whatsapp": "",
+  "categorias": [
+    {
+      "id": "destacado",
+      "nombre": "TriniHouse",
+      "productos": [
+        {
+          "id": "trinihouse",
+          "nombre": "TriniHouse",
+          "descripcion": "Pan suave, carne smash de 120 g jugosa, pollo desmechado en salsa de la casa, queso apanado crocante, tocineta caramelizada, chorizo de la casa y nuestra salsa especial. Acompañada de crujientes papas rizadas.",
+          "precio": 31000,
+          "imagen": "/media/fries/hero.png",
+          "destacado": true
+        }
+      ]
+    },
+    {
+      "id": "hamburguesas",
+      "nombre": "Hamburguesas",
+      "productos": [
+        {
+          "id": "trini-clasic",
+          "nombre": "Trini Clasic",
+          "descripcion": "Carne jugosa smash, mix de quesos fundidos, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
+          "precio": 20900,
+          "imagen": "/media/fries/hero.png"
+        },
+        {
+          "id": "trini-smash",
+          "nombre": "Trini Smash",
+          "descripcion": "Doble jugosa smash, mix de quesos fundidos, tocineta, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
+          "precio": 29900,
+          "imagen": "/media/fries/hero.png"
+        },
+        {
+          "id": "trini-mix",
+          "nombre": "Trini Mix",
+          "descripcion": "Carne jugosa smash, pollo desmechado, mix de quesos fundidos, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
+          "precio": 27500,
+          "imagen": "/media/fries/hero.png"
+        },
+        {
+          "id": "trini-burger",
+          "nombre": "Trini Burger",
+          "descripcion": "Jugosa carne crispy, mix de quesos fundidos, chorizo caramelizado, tocineta, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
+          "precio": 31000,
+          "imagen": "/media/fries/hero.png"
+        }
+      ]
+    },
+    {
+      "id": "papas-locas",
+      "nombre": "Papas Locas",
+      "productos": [
+        {
+          "id": "bucarafries",
+          "nombre": "Bucarafries",
+          "descripcion": "Crujientes papas rizadas, pollo desmechado en tártara, trozos de salchicha caramelizada, mix de quesos fundidos, cebolla crispy, salsas de la casa y gaseosa.",
+          "precio": 25000,
+          "imagen": "/media/fries/hero.png"
+        },
+        {
+          "id": "trini-mini",
+          "nombre": "Trini Mini",
+          "descripcion": "200 g de papas doradas y crujientes, 130 g de jugoso pollo y nuestras irresistibles salsas de la casa.",
+          "precio": 18000,
+          "imagen": "/media/fries/hero.png"
+        },
+        {
+          "id": "trini-fries",
+          "nombre": "Trini Fries",
+          "descripcion": "Crujientes papas rizadas, trozos de pollo crispy, chorizo caramelizado, maíz desgranado, mix de quesos fundidos, cebolla crispy, tocineta, salsas de la casa y gaseosa.",
+          "precio": 29900,
+          "imagen": "/media/fries/hero.png"
+        }
+      ]
+    },
+    {
+      "id": "para-compartir",
+      "nombre": "Para Compartir",
+      "productos": [
+        {
+          "id": "pan-relleno-crispy",
+          "nombre": "Pan Relleno · Pollo Crispy",
+          "descripcion": "Pan artesanal relleno con pollo crispy, papa ripio crocante, maíz dulce, chorizo y nuestras salsas.",
+          "precio": 17500,
+          "variantes": [
+            { "nombre": "15 cm", "precio": 17500 },
+            { "nombre": "30 cm", "precio": 32000 }
+          ],
+          "imagen": "/media/fries/hero.png"
+        },
+        {
+          "id": "pan-relleno-desmechado",
+          "nombre": "Pan Relleno · Pollo Desmechado",
+          "descripcion": "Pan artesanal relleno con pollo desmechado, acompañado de papa ripio y salchichas caramelizadas.",
+          "precio": 17500,
+          "variantes": [
+            { "nombre": "15 cm", "precio": 17500 },
+            { "nombre": "30 cm", "precio": 32000 }
+          ],
+          "imagen": "/media/fries/hero.png"
+        }
+      ]
+    },
+    {
+      "id": "bebidas",
+      "nombre": "Bebidas",
+      "productos": [
+        { "id": "coca-cola-pet", "nombre": "Coca Cola PET 400ml", "descripcion": "", "precio": 3500, "imagen": "/media/fries/hero.png" },
+        { "id": "agua", "nombre": "Agua", "descripcion": "", "precio": 2000, "imagen": "/media/fries/hero.png" },
+        { "id": "jugo-hit", "nombre": "Jugo Hit Personal", "descripcion": "", "precio": 3000, "imagen": "/media/fries/hero.png" }
+      ]
+    },
+    {
+      "id": "adicionales",
+      "nombre": "Adicionales",
+      "productos": [
+        { "id": "add-salsa", "nombre": "Salsa", "descripcion": "", "precio": 1000, "imagen": "/media/fries/hero.png" },
+        { "id": "add-maiz", "nombre": "Maíz", "descripcion": "", "precio": 2000, "imagen": "/media/fries/hero.png" },
+        { "id": "add-tocineta", "nombre": "Tocineta", "descripcion": "", "precio": 3000, "imagen": "/media/fries/hero.png" },
+        { "id": "add-papas", "nombre": "Papas", "descripcion": "", "precio": 3000, "imagen": "/media/fries/hero.png" },
+        { "id": "add-queso-cheddar", "nombre": "Queso Cheddar", "descripcion": "", "precio": 8000, "imagen": "/media/fries/hero.png" },
+        { "id": "add-pollo-crispy", "nombre": "Pollo Crispy", "descripcion": "", "precio": 8500, "imagen": "/media/fries/hero.png" }
+      ]
+    }
+  ]
+}

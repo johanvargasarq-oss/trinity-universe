@@ -1,0 +1,208 @@
+export type WorldId = "barberia" | "fries" | "slush" | "arepas" | "rent";
+
+export interface WorldTheme {
+  bg: string;
+  bgAlt: string;
+  accent: string;
+  accentSoft: string;
+  text: string;
+  textMuted: string;
+  border: string;
+}
+
+export interface WorldMedia {
+  heroVideo?: string;
+  heroImage: string;
+  cardImage: string;
+}
+
+export interface WorldContact {
+  addresses?: { label: string; line: string }[];
+  phone?: string;
+  hours?: string;
+  whatsapp?: string;
+  instagram: { handle: string; url: string };
+}
+
+export interface WorldConfig {
+  id: WorldId;
+  slug: `/${string}`;
+  name: string;
+  shortName: string;
+  emoji: string;
+  tagline: string;
+  description: string;
+  theme: WorldTheme;
+  media: WorldMedia;
+  contact: WorldContact;
+  cta: { label: string; href?: string };
+  /** Hotspot position on the portal map image, as % of image width/height */
+  hotspot: { x: number; y: number; w: number; h: number };
+  status: "live" | "comingSoon";
+}
+
+export const MASTER_GRADIENT = {
+  from: "#a855f7",
+  via: "#ec4899",
+  to: "#f59e0b",
+} as const;
+
+export const worlds: Record<WorldId, WorldConfig> = {
+  barberia: {
+    id: "barberia",
+    slug: "/barberia",
+    name: "Trinity Barbería",
+    shortName: "Barbería",
+    emoji: "✂️",
+    tagline: "Cortes de otro nivel",
+    description:
+      "Barbería premium en Bucaramanga. Cortes clásicos y modernos, luces cálidas y una experiencia que se siente distinta desde que te sientas en la silla.",
+    theme: {
+      bg: "#0a0a0a",
+      bgAlt: "#151515",
+      accent: "#d4af37",
+      accentSoft: "rgba(212, 175, 55, 0.16)",
+      text: "#f5f5f5",
+      textMuted: "#9c9c9c",
+      border: "rgba(245, 245, 245, 0.14)",
+    },
+    media: {
+      heroVideo: "/media/barberia/hero.mp4",
+      heroImage: "/media/barberia/hero.png",
+      cardImage: "/media/barberia/hero.png",
+    },
+    contact: {
+      addresses: [
+        { label: "Cabecera", line: "Cra 38 #46-147, Cabecera" },
+        { label: "Soto Mayor", line: "Calle 53 #23-67, Soto Mayor" },
+      ],
+      phone: "3246027086",
+      hours: "Lunes a Sábado · 10am – 8pm",
+      whatsapp: "573246027086",
+      instagram: { handle: "@trinity_bga", url: "https://instagram.com/trinity_bga" },
+    },
+    cta: { label: "Agenda tu cita" },
+    hotspot: { x: 9, y: 0, w: 40, h: 34 },
+    status: "live",
+  },
+  fries: {
+    id: "fries",
+    slug: "/fries",
+    name: "TriniFries",
+    shortName: "Fries",
+    emoji: "🍟",
+    tagline: "Crispy. Golden. Perfect.",
+    description:
+      "Papas fritas premium, doradas y crujientes, con toppings y salsas de la casa. La energía del universo Trinity en cada bocado.",
+    theme: {
+      bg: "#1a0f05",
+      bgAlt: "#241407",
+      accent: "#e8442a",
+      accentSoft: "rgba(232, 68, 42, 0.18)",
+      text: "#fff8e1",
+      textMuted: "#d9b98c",
+      border: "rgba(255, 200, 87, 0.18)",
+    },
+    media: {
+      heroImage: "/media/fries/hero.png",
+      cardImage: "/media/fries/hero.png",
+    },
+    contact: {
+      instagram: { handle: "@trinifries_bga", url: "https://instagram.com/trinifries_bga" },
+    },
+    cta: { label: "Síguenos" },
+    hotspot: { x: 56, y: 0, w: 44, h: 33 },
+    status: "live",
+  },
+  slush: {
+    id: "slush",
+    slug: "/slush",
+    name: "TriniSlush",
+    shortName: "Slush",
+    emoji: "🥤",
+    tagline: "Refréscate distinto",
+    description:
+      "Bebidas heladas y refrescantes, hechas para el calor de Bucaramanga. Cristales de hielo, sabores intensos y una sensación que despierta.",
+    theme: {
+      bg: "#051423",
+      bgAlt: "#08213a",
+      accent: "#38bdf8",
+      accentSoft: "rgba(56, 189, 248, 0.18)",
+      text: "#eaf6ff",
+      textMuted: "#8fb7cc",
+      border: "rgba(148, 217, 255, 0.18)",
+    },
+    media: {
+      heroImage: "/media/slush/hero.png",
+      cardImage: "/media/slush/hero.png",
+    },
+    contact: {
+      instagram: { handle: "@trinislush", url: "https://instagram.com/trinislush" },
+    },
+    cta: { label: "Síguenos" },
+    hotspot: { x: 0, y: 33, w: 34, h: 44 },
+    status: "live",
+  },
+  arepas: {
+    id: "arepas",
+    slug: "/arepas",
+    name: "TriniArepas",
+    shortName: "Arepas",
+    emoji: "🌮",
+    tagline: "Tradición con estilo",
+    description:
+      "Arepas con sabor a casa, en un ambiente que mezcla tradición colombiana con diseño moderno. Comfort food, elevado.",
+    theme: {
+      bg: "#1b120a",
+      bgAlt: "#24170d",
+      accent: "#c9812f",
+      accentSoft: "rgba(201, 129, 47, 0.18)",
+      text: "#f5ead9",
+      textMuted: "#bfa07e",
+      border: "rgba(201, 129, 47, 0.2)",
+    },
+    media: {
+      heroImage: "/media/arepas/hero.png",
+      cardImage: "/media/arepas/hero.png",
+    },
+    contact: {
+      instagram: { handle: "@triniarepas_", url: "https://instagram.com/triniarepas_" },
+    },
+    cta: { label: "Síguenos" },
+    hotspot: { x: 69, y: 37, w: 31, h: 37 },
+    status: "live",
+  },
+  rent: {
+    id: "rent",
+    slug: "/rent",
+    name: "TriniRent",
+    shortName: "Rent",
+    emoji: "🏖️",
+    tagline: "Tu playa te espera",
+    description:
+      "Alojamiento frente al mar en Santa Marta. Un espacio para desconectarte, con el mismo estándar premium del universo Trinity.",
+    theme: {
+      bg: "#04191c",
+      bgAlt: "#07272b",
+      accent: "#2dd4bf",
+      accentSoft: "rgba(45, 212, 191, 0.18)",
+      text: "#e6fbf8",
+      textMuted: "#8fc9c1",
+      border: "rgba(45, 212, 191, 0.2)",
+    },
+    media: {
+      heroVideo: "/media/rent/hero.mp4",
+      heroImage: "/media/rent/hero.png",
+      cardImage: "/media/rent/hero.png",
+    },
+    contact: {
+      instagram: { handle: "@trinirent_", url: "https://instagram.com/trinirent_" },
+    },
+    cta: { label: "Síguenos" },
+    hotspot: { x: 26, y: 65, w: 48, h: 35 },
+    status: "live",
+  },
+};
+
+export const worldList: WorldConfig[] = Object.values(worlds);
+export const liveWorlds: WorldConfig[] = worldList.filter((w) => w.status === "live");

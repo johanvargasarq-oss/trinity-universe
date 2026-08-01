@@ -1,0 +1,46 @@
+{
+  "_nota": "Transcrito directamente del menú oficial 'Trini Arepas' enviado por el cliente (estructura arma-tu-arepa en 3 pasos).",
+  "pasos": [
+    {
+      "id": "base",
+      "numero": 1,
+      "titulo": "Elige tu base",
+      "seleccion": "una",
+      "opciones": [
+        { "id": "carne", "nombre": "Arepa de Carne", "precio": 10500, "imagen": "/media/arepas/hero.png" },
+        { "id": "pollo", "nombre": "Arepa de Pollo", "precio": 8500, "imagen": "/media/arepas/hero.png" },
+        { "id": "mixta", "nombre": "Arepa Mixta", "precio": 13500, "imagen": "/media/arepas/hero.png" }
+      ]
+    },
+    {
+      "id": "adiciones",
+      "numero": 2,
+      "titulo": "Agrégale el toque a tu TriniArepa",
+      "seleccion": "multiple",
+      "opciones": [
+        { "id": "salchicha-rosada", "nombre": "Salchicha en salsa rosada", "precio": 3500 },
+        { "id": "maduro-frito", "nombre": "Maduro frito", "precio": 1900 },
+        { "id": "maiz", "nombre": "Maíz", "precio": 1900 },
+        { "id": "chorizo", "nombre": "Chorizo", "precio": 3700 },
+        { "id": "huevos-codorniz", "nombre": "Huevos de codorniz", "precio": 900 },
+        { "id": "chicharron", "nombre": "Chicharrón", "precio": 7000 },
+        { "id": "queso-costeno", "nombre": "Queso costeño", "precio": 2900 }
+      ]
+    },
+    {
+      "id": "salsas",
+      "numero": 3,
+      "titulo": "Elige tus salsas",
+      "seleccion": "multiple",
+      "nota": "Incluye 2 salsas a tu gusto. Salsa extra (3ra en adelante): $1.000 c/u.",
+      "precioExtra": 1000,
+      "incluidas": 2,
+      "opciones": [
+        { "id": "curase-bacon", "nombre": "Curase Bacon", "descripcion": "Ahumada, dulce y ligeramente picante." },
+        { "id": "guacamole", "nombre": "Guacamole", "descripcion": "Aguacate fresco con un toque de limón." },
+        { "id": "pico-gallo", "nombre": "Pico de Gallo", "descripcion": "Fresca, ligera y llena de sabor." },
+        { "id": "tartara", "nombre": "Tártara", "descripcion": "Clásica, cremosa y deliciosa." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "_temporal": true,
+  "_nota": "Precios y barberos de ejemplo — reemplazar con los datos reales de Trinity Barbería. Los nombres de servicios sí fueron indicados por el cliente; precios/duraciones/barberos son provisionales.",
+  "whatsapp": "573246027086",
+  "sedes": ["Cabecera", "Soto Mayor"],
+  "barberos": [
+    { "id": "cualquiera", "nombre": "Cualquier barbero disponible", "rol": "" },
+    { "id": "barbero-1", "nombre": "Barbero 1", "rol": "Fades · Diseño" },
+    { "id": "barbero-2", "nombre": "Barbero 2", "rol": "Cortes clásicos" },
+    { "id": "barbero-3", "nombre": "Barbero 3", "rol": "Barba · Afeitado" }
+  ],
+  "servicios": [
+    {
+      "id": "fade",
+      "nombre": "Fade",
+      "precio": 30000,
+      "duracionMin": 40,
+      "descripcion": "Degradado preciso, acabado impecable."
+    },
+    {
+      "id": "fade-barba",
+      "nombre": "Fade + Barba",
+      "precio": 45000,
+      "duracionMin": 60,
+      "descripcion": "El combo completo, en una sola sesión."
+    },
+    {
+      "id": "corte-clasico",
+      "nombre": "Corte clásico",
+      "precio": 25000,
+      "duracionMin": 30,
+      "descripcion": "Técnica de siempre, acabado impecable."
+    },
+    {
+      "id": "diseno",
+      "nombre": "Diseño",
+      "precio": 15000,
+      "duracionMin": 20,
+      "descripcion": "Líneas y patrones a tu gusto."
+    },
+    {
+      "id": "perfilado",
+      "nombre": "Perfilado",
+      "precio": 12000,
+      "duracionMin": 15,
+      "descripcion": "Perfilado de barba y contorno."
+    },
+    {
+      "id": "tintura",
+      "nombre": "Tintura",
+      "precio": 35000,
+      "duracionMin": 45,
+      "descripcion": "Color para cabello o barba."
+    }
+  ],
+  "horasDisponibles": [
+    "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+    "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
+    "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM",
+    "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM",
+    "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM"
+  ]
+}

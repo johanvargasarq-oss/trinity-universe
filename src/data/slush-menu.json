@@ -1,0 +1,23 @@
+{
+  "vasosColeccionables": {
+    "_nota": "Precios reales, tomados de la foto oficial enviada por el cliente.",
+    "descripcion": "Compra tu vaso coleccionable Trinity una vez y recárgalo cada vez que quieras a precio especial.",
+    "opciones": [
+      { "id": "vaso-clasico", "nombre": "Vaso Clásico", "precioCompra": 28000, "precioRecarga": 12000, "imagen": "/media/slush/hero.png" },
+      { "id": "vaso-xl", "nombre": "Vaso XL", "precioCompra": 38000, "precioRecarga": 17000, "imagen": "/media/slush/hero.png" }
+    ]
+  },
+  "sabores": {
+    "_temporal": true,
+    "_nota": "DATOS DE EJEMPLO. El cliente todavía no ha confirmado el menú oficial de sabores/tamaños — esto es un placeholder inspirado en referencias generales de granizados/slush, sin copiar ninguna marca. Reemplazar con la carta real de TriniSlush cuando esté disponible.",
+    "lista": [
+      "Fresa", "Maracuyá", "Blue Raspberry", "Limón", "Mango", "Cereza", "Piña Colada", "Frutos Tropicales"
+    ],
+    "tamanos": [
+      { "onzas": 12, "precio": 8000 },
+      { "onzas": 16, "precio": 10000 },
+      { "onzas": 22, "precio": 13000 },
+      { "onzas": 32, "precio": 17000 }
+    ]
+  }
+}

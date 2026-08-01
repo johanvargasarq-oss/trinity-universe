@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Trinity master identity — approximates the @trinity_bga Instagram ring gradient */
+:root {
+  --trinity-gradient-from: #a855f7;
+  --trinity-gradient-via: #ec4899;
+  --trinity-gradient-to: #f59e0b;
+
+  --background: #050505;
+  --foreground: #f5f5f5;
+
+  /* Default (portal/splash) world vars — overridden per world via [data-world] below */
+  --world-bg: #050505;
+  --world-bg-alt: #0f0f0f;
+  --world-accent: #ec4899;
+  --world-accent-soft: rgba(236, 72, 153, 0.16);
+  --world-text: #f5f5f5;
+  --world-text-muted: #a3a3a3;
+  --world-border: rgba(245, 245, 245, 0.12);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-world-bg: var(--world-bg);
+  --color-world-bg-alt: var(--world-bg-alt);
+  --color-world-accent: var(--world-accent);
+  --color-world-accent-soft: var(--world-accent-soft);
+  --color-world-text: var(--world-text);
+  --color-world-text-muted: var(--world-text-muted);
+  --color-world-border: var(--world-border);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+[data-world="barberia"] {
+  --world-bg: #0a0a0a;
+  --world-bg-alt: #151515;
+  --world-accent: #d4af37;
+  --world-accent-soft: rgba(212, 175, 55, 0.16);
+  --world-text: #f5f5f5;
+  --world-text-muted: #9c9c9c;
+  --world-border: rgba(245, 245, 245, 0.14);
+}
+
+[data-world="fries"] {
+  --world-bg: #1a0f05;
+  --world-bg-alt: #241407;
+  --world-accent: #e8442a;
+  --world-accent-soft: rgba(232, 68, 42, 0.18);
+  --world-text: #fff8e1;
+  --world-text-muted: #d9b98c;
+  --world-border: rgba(255, 200, 87, 0.18);
+}
+
+[data-world="slush"] {
+  --world-bg: #051423;
+  --world-bg-alt: #08213a;
+  --world-accent: #38bdf8;
+  --world-accent-soft: rgba(56, 189, 248, 0.18);
+  --world-text: #eaf6ff;
+  --world-text-muted: #8fb7cc;
+  --world-border: rgba(148, 217, 255, 0.18);
+}
+
+[data-world="arepas"] {
+  --world-bg: #1b120a;
+  --world-bg-alt: #24170d;
+  --world-accent: #c9812f;
+  --world-accent-soft: rgba(201, 129, 47, 0.18);
+  --world-text: #f5ead9;
+  --world-text-muted: #bfa07e;
+  --world-border: rgba(201, 129, 47, 0.2);
+}
+
+[data-world="rent"] {
+  --world-bg: #04191c;
+  --world-bg-alt: #07272b;
+  --world-accent: #2dd4bf;
+  --world-accent-soft: rgba(45, 212, 191, 0.18);
+  --world-text: #e6fbf8;
+  --world-text-muted: #8fc9c1;
+  --world-border: rgba(45, 212, 191, 0.2);
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--world-bg);
+  color: var(--world-text);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  transition: background-color 0.4s ease;
+}
+
+.font-display {
+  font-family: var(--font-display), var(--font-body), sans-serif;
+}
+
+.trinity-gradient-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--trinity-gradient-from),
+    var(--trinity-gradient-via),
+    var(--trinity-gradient-to)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
