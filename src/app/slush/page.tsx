@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { worlds } from "@/lib/brands";
@@ -8,12 +9,44 @@ import slushMenu from "@/data/slush-menu.json";
 import WorldNav from "@/components/world/WorldNav";
 import WorldHero from "@/components/world/WorldHero";
 import WorldContactBlock from "@/components/world/WorldContactBlock";
+import CartFloatingButton from "@/components/cart/CartFloatingButton";
+import CartDrawer from "@/components/cart/CartDrawer";
+import { useSlushCart } from "@/lib/cart/slush-cart";
+import { cartCount, cartTotal } from "@/lib/cart/createCartStore";
+import { buildSlushOrderMessage } from "@/lib/cart/messages";
 
 const world = worlds.slush;
 const currency = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
 export default function SlushPage() {
   useRevealWorld();
+  const cart = useSlushCart();
+  const [flavor, setFlavor] = useState<string | null>(null);
+  const [sizeOz, setSizeOz] = useState<number | null>(null);
+  const [qty, setQty] = useState(1);
+
+  const sizeOption = slushMenu.sabores.tamanos.find((t) => t.onzas === sizeOz);
+  const unitPrice = sizeOption?.precio ?? 0;
+  const canAdd = Boolean(flavor && sizeOz);
+
+  function handleAdd() {
+    if (!flavor || !sizeOz) return;
+    cart.addLine({
+      id: `${flavor}__${sizeOz}`,
+      unitPrice,
+      quantity: qty,
+      item: { flavorName: flavor, sizeOz },
+    });
+    cart.open();
+    setQty(1);
+  }
+
+  function handleCheckout() {
+    const total = cartTotal(cart.lines);
+    const message = buildSlushOrderMessage(cart.lines, cart.notes, total);
+    if (!world.contact.whatsapp) return;
+    window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+  }
 
   return (
     <>
@@ -23,9 +56,7 @@ export default function SlushPage() {
       <section className="relative py-24 px-5 sm:px-10 bg-world-bg">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display text-2xl sm:text-3xl text-world-text mb-2">Vasos coleccionables</h2>
-          <p className="text-world-text-muted mb-10">
-            {slushMenu.vasosColeccionables.descripcion}
-          </p>
+          <p className="text-world-text-muted mb-10">{slushMenu.vasosColeccionables.descripcion}</p>
           <div className="grid sm:grid-cols-2 gap-6">
             {slushMenu.vasosColeccionables.opciones.map((v, i) => (
               <motion.div
@@ -57,10 +88,10 @@ export default function SlushPage() {
         </div>
       </section>
 
-      <section className="relative py-24 px-5 sm:px-10 bg-world-bg-alt">
+      <section className="relative py-24 px-5 sm:px-10 bg-world-bg-alt pb-40">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-2">
-            <h2 className="font-display text-2xl sm:text-3xl text-world-text">Sabores</h2>
+            <h2 className="font-display text-2xl sm:text-3xl text-world-text">Arma tu granizado</h2>
             <span
               className="rounded-full px-3 py-1 text-xs font-medium uppercase tracking-wide"
               style={{ background: world.theme.accentSoft, color: world.theme.accent }}
@@ -73,36 +104,97 @@ export default function SlushPage() {
             no definitivos.
           </p>
 
-          <div className="flex flex-wrap gap-2 mb-10">
+          <span className="text-xs uppercase tracking-wide text-world-text-muted">1. Elige tu sabor</span>
+          <div className="flex flex-wrap gap-2 mt-3 mb-8">
             {slushMenu.sabores.lista.map((s) => (
-              <span
+              <button
                 key={s}
-                className="rounded-full border px-4 py-2 text-sm text-world-text"
-                style={{ borderColor: world.theme.border }}
+                onClick={() => setFlavor(s)}
+                className="rounded-full border px-4 py-2 text-sm transition-colors"
+                style={{
+                  borderColor: flavor === s ? world.theme.accent : world.theme.border,
+                  background: flavor === s ? world.theme.accentSoft : "transparent",
+                  color: flavor === s ? world.theme.accent : "var(--world-text)",
+                }}
               >
+                {flavor === s ? "✓ " : ""}
                 {s}
-              </span>
+              </button>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <span className="text-xs uppercase tracking-wide text-world-text-muted">2. Elige tu tamaño</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-3">
             {slushMenu.sabores.tamanos.map((t) => (
-              <div
+              <button
                 key={t.onzas}
-                className="rounded-xl border p-4 text-center"
-                style={{ borderColor: world.theme.border, background: world.theme.bgAlt }}
+                onClick={() => setSizeOz(t.onzas)}
+                className="rounded-xl border p-4 text-center transition-colors"
+                style={{
+                  borderColor: sizeOz === t.onzas ? world.theme.accent : world.theme.border,
+                  background: sizeOz === t.onzas ? world.theme.accentSoft : world.theme.bgAlt,
+                }}
               >
                 <div className="text-world-text font-medium">{t.onzas} oz</div>
                 <div className="text-sm mt-1" style={{ color: world.theme.accent }}>
                   {currency.format(t.precio)}
                 </div>
-              </div>
+              </button>
             ))}
+          </div>
+        </div>
+
+        <div
+          className="fixed bottom-0 inset-x-0 z-30 border-t backdrop-blur-md"
+          style={{ borderColor: world.theme.border, background: `${world.theme.bg}ee` }}
+        >
+          <div className="max-w-4xl mx-auto px-5 sm:px-10 py-4 flex items-center gap-4">
+            <div className="flex items-center gap-1.5 rounded-full border px-1" style={{ borderColor: world.theme.border }}>
+              <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="w-8 h-8 flex items-center justify-center text-world-text-muted" aria-label="Restar">
+                −
+              </button>
+              <span className="text-sm w-5 text-center text-world-text">{qty}</span>
+              <button onClick={() => setQty((q) => q + 1)} className="w-8 h-8 flex items-center justify-center text-world-text-muted" aria-label="Sumar">
+                +
+              </button>
+            </div>
+            <div className="hidden sm:block text-sm text-world-text-muted flex-1 truncate">
+              {flavor && sizeOz ? `${flavor} · ${sizeOz} oz` : "Elige sabor y tamaño"}
+            </div>
+            <button
+              onClick={handleAdd}
+              disabled={!canAdd}
+              className="rounded-full px-6 py-3 font-medium disabled:opacity-40 whitespace-nowrap"
+              style={{ background: world.theme.accent, color: "#0a0a0a" }}
+            >
+              Agregar · {currency.format(unitPrice * qty)}
+            </button>
           </div>
         </div>
       </section>
 
       <WorldContactBlock world={world} />
+
+      <CartFloatingButton world={world} count={cartCount(cart.lines)} onClick={cart.open} />
+      <CartDrawer
+        world={world}
+        isOpen={cart.isOpen}
+        onClose={cart.close}
+        lines={cart.lines}
+        total={cartTotal(cart.lines)}
+        notes={cart.notes}
+        onNotesChange={cart.setNotes}
+        onUpdateQuantity={cart.updateQuantity}
+        onRemove={cart.removeLine}
+        onCheckout={handleCheckout}
+        checkoutDisabled={!world.contact.whatsapp}
+        renderLine={(line) => (
+          <>
+            <span className="text-world-text font-medium">{line.item.flavorName}</span>
+            <span className="text-world-text-muted"> · {line.item.sizeOz} oz</span>
+          </>
+        )}
+      />
     </>
   );
 }
