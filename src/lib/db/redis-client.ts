@@ -1,6 +1,5 @@
-const HASH_KEY = "trinity:bookings";
-
-async function redisCmd(...args: (string | number)[]) {
+/** Low-level Redis REST client (Upstash / Vercel KV compatible). Every entity module builds on this. */
+export async function redisCmd(...args: (string | number)[]) {
   const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
@@ -18,40 +17,26 @@ async function redisCmd(...args: (string | number)[]) {
   return data.result;
 }
 
-export interface Booking {
-  id: string;
-  worldId: string;
-  nombre: string;
-  telefono: string;
-  servicio: string;
-  staff: string;
-  sede: string;
-  fecha: string;
-  hora: string;
-  estado: "pendiente" | "confirmada";
-  creadoEn: string;
-  confirmadoEn?: string;
-}
-
-export async function getAllBookings(): Promise<Booking[]> {
-  const flat = await redisCmd("HGETALL", HASH_KEY);
-  const out: Booking[] = [];
+/** Reads every value in a Redis hash, parsed as JSON, skipping corrupt entries. */
+export async function hashGetAll<T>(hashKey: string): Promise<T[]> {
+  const flat = await redisCmd("HGETALL", hashKey);
+  const out: T[] = [];
   if (Array.isArray(flat)) {
     for (let i = 0; i < flat.length; i += 2) {
       try {
         out.push(JSON.parse(flat[i + 1]));
       } catch {
-        // ignora entradas corruptas
+        // ignore corrupt entries
       }
     }
   }
   return out;
 }
 
-export async function saveBooking(booking: Booking): Promise<void> {
-  await redisCmd("HSET", HASH_KEY, booking.id, JSON.stringify(booking));
+export async function hashSet(hashKey: string, id: string, value: unknown): Promise<void> {
+  await redisCmd("HSET", hashKey, id, JSON.stringify(value));
 }
 
-export async function deleteBooking(id: string): Promise<void> {
-  await redisCmd("HDEL", HASH_KEY, id);
+export async function hashDelete(hashKey: string, id: string): Promise<void> {
+  await redisCmd("HDEL", hashKey, id);
 }

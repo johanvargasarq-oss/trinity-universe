@@ -24,6 +24,8 @@ export default function SlushPage() {
   const [flavor, setFlavor] = useState<string | null>(null);
   const [sizeOz, setSizeOz] = useState<number | null>(null);
   const [qty, setQty] = useState(1);
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
   const sizeOption = slushMenu.sabores.tamanos.find((t) => t.onzas === sizeOz);
   const unitPrice = sizeOption?.precio ?? 0;
@@ -41,11 +43,37 @@ export default function SlushPage() {
     setQty(1);
   }
 
-  function handleCheckout() {
+  async function handleCheckout() {
     const total = cartTotal(cart.lines);
-    const message = buildSlushOrderMessage(cart.lines, cart.notes, total);
-    if (!world.contact.whatsapp) return;
-    window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+    const message = buildSlushOrderMessage(cart.lines, cart.notes, total, customerName);
+
+    try {
+      await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          worldId: "slush",
+          lines: cart.lines.map((l) => ({
+            label: `${l.item.flavorName} (${l.item.sizeOz} oz)`,
+            quantity: l.quantity,
+            unitPrice: l.unitPrice,
+          })),
+          notes: cart.notes,
+          total,
+          clienteNombre: customerName,
+          clienteTelefono: customerPhone,
+        }),
+      });
+    } catch {
+      // Order persistence failing should never block the customer from reaching WhatsApp.
+    }
+
+    if (world.contact.whatsapp) {
+      window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+    cart.clear();
+    setCustomerName("");
+    setCustomerPhone("");
   }
 
   return (
@@ -184,6 +212,10 @@ export default function SlushPage() {
         total={cartTotal(cart.lines)}
         notes={cart.notes}
         onNotesChange={cart.setNotes}
+        customerName={customerName}
+        onCustomerNameChange={setCustomerName}
+        customerPhone={customerPhone}
+        onCustomerPhoneChange={setCustomerPhone}
         onUpdateQuantity={cart.updateQuantity}
         onRemove={cart.removeLine}
         onCheckout={handleCheckout}

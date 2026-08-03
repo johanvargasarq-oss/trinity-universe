@@ -1,135 +1,110 @@
 "use client";
 
-import { useState } from "react";
-import type { Booking } from "@/lib/redis";
+import { useEffect, useState } from "react";
+import AdminShell from "@/components/admin/AdminShell";
+import StatCard from "@/components/admin/StatCard";
+import { adminFetch } from "@/lib/admin-auth-client";
+import { worlds } from "@/lib/brands";
 
-export default function AdminPage() {
-  const [pass, setPass] = useState("");
-  const [authed, setAuthed] = useState(false);
-  const [bookings, setBookings] = useState<Booking[]>([]);
+const currency = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
+
+interface DashboardData {
+  ventasHoy: number;
+  ventasMes: number;
+  pedidosPendientes: number;
+  pedidosEntregadosHoy: number;
+  reservasHoy: number;
+  clientesNuevosHoy: number;
+  topProductos: { nombre: string; cantidad: number }[];
+  ingresosPorNegocio: { barberia: number; fries: number; arepas: number; slush: number };
+  pedidosPorNegocioHoy: { fries: number; arepas: number; slush: number };
+}
+
+export default function AdminDashboardPage() {
+  return (
+    <AdminShell>
+      <DashboardBody />
+    </AdminShell>
+  );
+}
+
+// Rendered only once AdminShell confirms the admin is authenticated, so this
+// never fires its fetch before login (and never races the login request).
+function DashboardBody() {
+  const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  async function load(passValue: string) {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/bookings/admin", { headers: { "x-admin-pass": passValue } });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Error");
-        setAuthed(false);
-        return;
-      }
-      setBookings(data.bookings);
-      setAuthed(true);
-    } catch {
-      setError("No se pudo conectar con el servidor.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function accion(id: string, accion: "confirmar" | "eliminar") {
-    await fetch("/api/bookings/admin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-pass": pass },
-      body: JSON.stringify({ id, accion }),
-    });
-    load(pass);
-  }
-
-  if (!authed) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
-        <div className="w-full max-w-sm">
-          <h1 className="font-display text-2xl text-white mb-6 text-center">Panel Trinity</h1>
-          <input
-            type="password"
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && load(pass)}
-            placeholder="Clave de administrador"
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-white placeholder:text-white/40"
-          />
-          <button
-            onClick={() => load(pass)}
-            disabled={loading}
-            className="w-full mt-3 rounded-lg bg-white text-black py-3 font-medium disabled:opacity-60"
-          >
-            {loading ? "Entrando…" : "Entrar"}
-          </button>
-          {error && <p className="text-red-400 text-sm mt-3 text-center">{error}</p>}
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    adminFetch("/api/admin/dashboard")
+      .then((res) => res.json())
+      .then((d) => (d.error ? setError(d.error) : setData(d)))
+      .catch(() => setError("No se pudo cargar el dashboard."));
+  }, []);
 
   return (
-    <div className="min-h-screen bg-black px-4 py-10">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-display text-2xl text-white">Reservas Trinity</h1>
-          <button onClick={() => load(pass)} className="text-sm text-white/60 hover:text-white">
-            Actualizar
-          </button>
-        </div>
+      <div className="px-5 sm:px-8 py-8 max-w-6xl">
+        <h1 className="font-display text-2xl text-white mb-1">Dashboard General</h1>
+        <p className="text-white/40 text-sm mb-8">Resumen de todo el universo Trinity</p>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left text-white/80">
-            <thead className="text-white/40 uppercase text-xs">
-              <tr>
-                <th className="py-2 pr-4">Mundo</th>
-                <th className="py-2 pr-4">Nombre</th>
-                <th className="py-2 pr-4">WhatsApp</th>
-                <th className="py-2 pr-4">Servicio</th>
-                <th className="py-2 pr-4">Staff</th>
-                <th className="py-2 pr-4">Sede</th>
-                <th className="py-2 pr-4">Fecha</th>
-                <th className="py-2 pr-4">Hora</th>
-                <th className="py-2 pr-4">Estado</th>
-                <th className="py-2 pr-4">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((b) => (
-                <tr key={b.id} className="border-t border-white/10">
-                  <td className="py-2 pr-4">{b.worldId}</td>
-                  <td className="py-2 pr-4">{b.nombre}</td>
-                  <td className="py-2 pr-4">{b.telefono}</td>
-                  <td className="py-2 pr-4">{b.servicio}</td>
-                  <td className="py-2 pr-4">{b.staff}</td>
-                  <td className="py-2 pr-4">{b.sede}</td>
-                  <td className="py-2 pr-4">{b.fecha}</td>
-                  <td className="py-2 pr-4">{b.hora}</td>
-                  <td className="py-2 pr-4">
-                    <span className={b.estado === "confirmada" ? "text-emerald-400" : "text-amber-400"}>
-                      {b.estado}
-                    </span>
-                  </td>
-                  <td className="py-2 pr-4 flex gap-2">
-                    {b.estado !== "confirmada" && (
-                      <button onClick={() => accion(b.id, "confirmar")} className="text-emerald-400 hover:underline">
-                        Confirmar
-                      </button>
-                    )}
-                    <button onClick={() => accion(b.id, "eliminar")} className="text-red-400 hover:underline">
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {bookings.length === 0 && (
-                <tr>
-                  <td colSpan={10} className="py-8 text-center text-white/40">
-                    No hay reservas todavía.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        {error && <p className="text-red-400 text-sm">{error}</p>}
+
+        {data && (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
+              <StatCard label="Ventas del día" value={currency.format(data.ventasHoy)} accent="#34d399" />
+              <StatCard label="Ventas del mes" value={currency.format(data.ventasMes)} accent="#34d399" />
+              <StatCard label="Pedidos pendientes" value={String(data.pedidosPendientes)} accent="#fbbf24" />
+              <StatCard label="Reservas de hoy" value={String(data.reservasHoy)} accent="#60a5fa" />
+              <StatCard label="Clientes nuevos hoy" value={String(data.clientesNuevosHoy)} />
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-6 mb-10">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <h2 className="text-white font-medium mb-4">Ingresos por negocio</h2>
+                <div className="space-y-3">
+                  {(["barberia", "fries", "arepas", "slush"] as const).map((id) => (
+                    <div key={id} className="flex items-center justify-between text-sm">
+                      <span className="text-white/60">
+                        {worlds[id].emoji} {worlds[id].name}
+                      </span>
+                      <span className="text-white font-medium">{currency.format(data.ingresosPorNegocio[id])}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                <h2 className="text-white font-medium mb-4">Productos más vendidos</h2>
+                {data.topProductos.length === 0 ? (
+                  <p className="text-white/30 text-sm">Todavía no hay pedidos suficientes.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {data.topProductos.map((p) => (
+                      <div key={p.nombre} className="flex items-center justify-between text-sm">
+                        <span className="text-white/60 truncate pr-3">{p.nombre}</span>
+                        <span className="text-white font-medium shrink-0">{p.cantidad}x</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <h2 className="text-white font-medium mb-4">Pedidos de hoy por negocio</h2>
+              <div className="grid grid-cols-3 gap-4">
+                {(["fries", "arepas", "slush"] as const).map((id) => (
+                  <div key={id} className="text-center">
+                    <div className="text-2xl font-display text-white">{data.pedidosPorNegocioHoy[id]}</div>
+                    <div className="text-white/50 text-xs mt-1">
+                      {worlds[id].emoji} {worlds[id].shortName}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
-    </div>
   );
 }

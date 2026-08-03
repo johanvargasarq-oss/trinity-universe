@@ -102,6 +102,7 @@ export default function BookingForm({
           nombre,
           telefono,
           servicio: servicioLabel,
+          total: servicioObj?.precio ?? 0,
           staff: staffNombre,
           sede,
           fecha,

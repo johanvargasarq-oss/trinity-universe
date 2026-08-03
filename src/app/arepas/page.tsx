@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { worlds } from "@/lib/brands";
 import { useRevealWorld } from "@/hooks/useRevealWorld";
 import arepasMenu from "@/data/arepas-menu.json";
@@ -18,6 +19,8 @@ const world = worlds.arepas;
 export default function ArepasPage() {
   useRevealWorld();
   const cart = useArepasCart();
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
   function handleAddToCart(selection: BuildSelection, unitPrice: number, quantity: number) {
     const adicionesStep = selection.extras.find((e) => e.step.id === "adiciones");
@@ -35,11 +38,37 @@ export default function ArepasPage() {
     cart.open();
   }
 
-  function handleCheckout() {
+  async function handleCheckout() {
     const total = cartTotal(cart.lines);
-    const message = buildArepasOrderMessage(cart.lines, cart.notes, total);
-    if (!world.contact.whatsapp) return;
-    window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+    const message = buildArepasOrderMessage(cart.lines, cart.notes, total, customerName);
+
+    try {
+      await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          worldId: "arepas",
+          lines: cart.lines.map((l) => ({
+            label: [l.item.baseName, ...l.item.adiciones.map((a) => a.nombre), ...l.item.salsas.map((s) => s.nombre)].join(" + "),
+            quantity: l.quantity,
+            unitPrice: l.unitPrice,
+          })),
+          notes: cart.notes,
+          total,
+          clienteNombre: customerName,
+          clienteTelefono: customerPhone,
+        }),
+      });
+    } catch {
+      // Order persistence failing should never block the customer from reaching WhatsApp.
+    }
+
+    if (world.contact.whatsapp) {
+      window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+    cart.clear();
+    setCustomerName("");
+    setCustomerPhone("");
   }
 
   return (
@@ -58,6 +87,10 @@ export default function ArepasPage() {
         total={cartTotal(cart.lines)}
         notes={cart.notes}
         onNotesChange={cart.setNotes}
+        customerName={customerName}
+        onCustomerNameChange={setCustomerName}
+        customerPhone={customerPhone}
+        onCustomerPhoneChange={setCustomerPhone}
         onUpdateQuantity={cart.updateQuantity}
         onRemove={cart.removeLine}
         onCheckout={handleCheckout}

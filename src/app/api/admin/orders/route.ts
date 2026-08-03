@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAllBookings, saveBooking, deleteBooking, type BookingEstado } from "@/lib/db/bookings";
+import { getAllOrders, saveOrder, deleteOrder, type OrderEstado } from "@/lib/db/orders";
 import { checkAdminAuth } from "@/lib/admin-auth-server";
 
-const VALID_ESTADOS: BookingEstado[] = ["pendiente", "confirmada", "finalizada", "cancelada"];
+const VALID_ESTADOS: OrderEstado[] = ["pendiente", "preparando", "listo", "entregado", "cancelado"];
 
 export async function GET(req: NextRequest) {
   if (!process.env.ADMIN_PASSWORD) {
@@ -12,9 +12,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Clave incorrecta" }, { status: 401 });
   }
   try {
-    const all = await getAllBookings();
+    const worldId = new URL(req.url).searchParams.get("worldId");
+    let all = await getAllOrders();
+    if (worldId) all = all.filter((o) => o.worldId === worldId);
     all.sort((a, b) => (a.creadoEn < b.creadoEn ? 1 : -1));
-    return NextResponse.json({ bookings: all }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ orders: all }, { headers: { "Cache-Control": "no-store" } });
   } catch (e) {
     return NextResponse.json({ error: (e as Error).message }, { status: 500 });
   }
@@ -34,21 +36,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Faltan datos" }, { status: 400 });
     }
     if (accion === "eliminar") {
-      await deleteBooking(id);
+      await deleteOrder(id);
       return NextResponse.json({ ok: true });
     }
     if (accion === "cambiarEstado") {
       if (!VALID_ESTADOS.includes(estado)) {
         return NextResponse.json({ error: "Estado inválido" }, { status: 400 });
       }
-      const all = await getAllBookings();
-      const booking = all.find((b) => b.id === id);
-      if (!booking) {
-        return NextResponse.json({ error: "No existe esa reserva" }, { status: 404 });
+      const all = await getAllOrders();
+      const order = all.find((o) => o.id === id);
+      if (!order) {
+        return NextResponse.json({ error: "No existe ese pedido" }, { status: 404 });
       }
-      booking.estado = estado;
-      booking.actualizadoEn = new Date().toISOString();
-      await saveBooking(booking);
+      order.estado = estado;
+      order.actualizadoEn = new Date().toISOString();
+      await saveOrder(order);
       return NextResponse.json({ ok: true });
     }
     return NextResponse.json({ error: "Acción inválida" }, { status: 400 });

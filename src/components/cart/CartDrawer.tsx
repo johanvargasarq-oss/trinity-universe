@@ -14,6 +14,10 @@ export default function CartDrawer<T>({
   total,
   notes,
   onNotesChange,
+  customerName,
+  onCustomerNameChange,
+  customerPhone,
+  onCustomerPhoneChange,
   onUpdateQuantity,
   onRemove,
   renderLine,
@@ -27,12 +31,17 @@ export default function CartDrawer<T>({
   total: number;
   notes: string;
   onNotesChange: (notes: string) => void;
+  customerName: string;
+  onCustomerNameChange: (name: string) => void;
+  customerPhone: string;
+  onCustomerPhoneChange: (phone: string) => void;
   onUpdateQuantity: (id: string, quantity: number) => void;
   onRemove: (id: string) => void;
   renderLine: (line: CartLine<T>) => React.ReactNode;
   onCheckout: () => void;
   checkoutDisabled?: boolean;
 }) {
+  const missingCustomerInfo = !customerName.trim() || !customerPhone.trim();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -108,17 +117,41 @@ export default function CartDrawer<T>({
               )}
 
               {lines.length > 0 && (
-                <label className="block pt-2">
-                  <span className="text-xs opacity-60">Observaciones (opcional)</span>
-                  <textarea
-                    value={notes}
-                    onChange={(e) => onNotesChange(e.target.value)}
-                    rows={2}
-                    placeholder="Ej: sin cebolla, tocar el timbre..."
-                    className="mt-1 w-full rounded-lg border bg-transparent px-3 py-2 text-sm placeholder:opacity-40"
-                    style={{ borderColor: world.theme.border }}
-                  />
-                </label>
+                <div className="space-y-3 pt-2">
+                  <label className="block">
+                    <span className="text-xs opacity-60">Tu nombre</span>
+                    <input
+                      type="text"
+                      value={customerName}
+                      onChange={(e) => onCustomerNameChange(e.target.value)}
+                      placeholder="¿Cómo te llamas?"
+                      className="mt-1 w-full rounded-lg border bg-transparent px-3 py-2 text-sm placeholder:opacity-40"
+                      style={{ borderColor: world.theme.border }}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-xs opacity-60">Tu WhatsApp</span>
+                    <input
+                      type="tel"
+                      value={customerPhone}
+                      onChange={(e) => onCustomerPhoneChange(e.target.value)}
+                      placeholder="Ej: 3001234567"
+                      className="mt-1 w-full rounded-lg border bg-transparent px-3 py-2 text-sm placeholder:opacity-40"
+                      style={{ borderColor: world.theme.border }}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-xs opacity-60">Observaciones (opcional)</span>
+                    <textarea
+                      value={notes}
+                      onChange={(e) => onNotesChange(e.target.value)}
+                      rows={2}
+                      placeholder="Ej: sin cebolla, tocar el timbre..."
+                      className="mt-1 w-full rounded-lg border bg-transparent px-3 py-2 text-sm placeholder:opacity-40"
+                      style={{ borderColor: world.theme.border }}
+                    />
+                  </label>
+                </div>
               )}
             </div>
 
@@ -129,7 +162,7 @@ export default function CartDrawer<T>({
               </div>
               <button
                 onClick={onCheckout}
-                disabled={lines.length === 0 || checkoutDisabled}
+                disabled={lines.length === 0 || missingCustomerInfo || checkoutDisabled}
                 className="w-full rounded-full py-3.5 font-medium disabled:opacity-40"
                 style={{ background: world.theme.accent, color: "#0a0a0a" }}
               >

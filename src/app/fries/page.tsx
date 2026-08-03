@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { worlds } from "@/lib/brands";
 import { useRevealWorld } from "@/hooks/useRevealWorld";
 import friesMenu from "@/data/fries-menu.json";
@@ -18,6 +19,8 @@ const world = worlds.fries;
 export default function FriesPage() {
   useRevealWorld();
   const cart = useFriesCart();
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
   function handleAddToCart(product: MenuProduct, variant: MenuProductVariant | null, quantity: number) {
     cart.addLine({
@@ -29,11 +32,37 @@ export default function FriesPage() {
     cart.open();
   }
 
-  function handleCheckout() {
+  async function handleCheckout() {
     const total = cartTotal(cart.lines);
-    const message = buildFriesOrderMessage(cart.lines, cart.notes, total);
-    if (!world.contact.whatsapp) return;
-    window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+    const message = buildFriesOrderMessage(cart.lines, cart.notes, total, customerName);
+
+    try {
+      await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          worldId: "fries",
+          lines: cart.lines.map((l) => ({
+            label: l.item.variantName ? `${l.item.productName} (${l.item.variantName})` : l.item.productName,
+            quantity: l.quantity,
+            unitPrice: l.unitPrice,
+          })),
+          notes: cart.notes,
+          total,
+          clienteNombre: customerName,
+          clienteTelefono: customerPhone,
+        }),
+      });
+    } catch {
+      // Order persistence failing should never block the customer from reaching WhatsApp.
+    }
+
+    if (world.contact.whatsapp) {
+      window.open(`https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+    cart.clear();
+    setCustomerName("");
+    setCustomerPhone("");
   }
 
   return (
@@ -52,6 +81,10 @@ export default function FriesPage() {
         total={cartTotal(cart.lines)}
         notes={cart.notes}
         onNotesChange={cart.setNotes}
+        customerName={customerName}
+        onCustomerNameChange={setCustomerName}
+        customerPhone={customerPhone}
+        onCustomerPhoneChange={setCustomerPhone}
         onUpdateQuantity={cart.updateQuantity}
         onRemove={cart.removeLine}
         onCheckout={handleCheckout}
