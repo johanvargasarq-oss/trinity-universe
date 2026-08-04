@@ -11,7 +11,7 @@ const ARRIVAL_PARTICLES = Array.from({ length: 10 }, (_, i) => i);
 
 export default function IslandHotspot({ world }: { world: WorldConfig }) {
   const ref = useRef<HTMLButtonElement>(null);
-  const { enterWorld, phase } = useTrinityTransition();
+  const { activate, enterWorld, phase } = useTrinityTransition();
   const { focusedWorldId, setFocusedWorldId, prefersReducedMotion } = usePortalScene();
   const [arrived, setArrived] = useState(false);
   const isLive = world.status === "live";
@@ -38,7 +38,7 @@ export default function IslandHotspot({ world }: { world: WorldConfig }) {
   }
 
   function handleActivate() {
-    if (phase !== "idle" || !ref.current) return;
+    if (!ref.current || !activate(world.id)) return;
     if (prefersReducedMotion) {
       enterWorld(world.id, ref.current);
       return;
