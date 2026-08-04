@@ -72,13 +72,19 @@ export default function RentPage() {
             Escríbenos y te contamos disponibilidad, fechas y todo lo que necesitas para tu estadía.
           </p>
           <a
-            href={world.contact.instagram.url}
+            href={
+              world.contact.whatsapp
+                ? `https://wa.me/${world.contact.whatsapp}?text=${encodeURIComponent(
+                    `Hola! Vi TriniRent y quiero consultar disponibilidad ${world.emoji}`
+                  )}`
+                : world.contact.instagram.url
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full px-8 py-3.5 font-medium transition-transform hover:scale-105"
             style={{ background: world.theme.accent, color: "#0a0a0a" }}
           >
-            Escríbenos por Instagram
+            {world.contact.whatsapp ? "Reservar por WhatsApp" : "Escríbenos por Instagram"}
           </a>
         </motion.div>
       </section>
