@@ -4,7 +4,6 @@ import Image from "next/image";
 import ParticleField from "@/components/trinity/ParticleField";
 import { useParallaxStyle } from "../../useParallaxStyle";
 import { usePortalScene } from "../../scene-context";
-import WaterLayer from "./WaterLayer";
 import CloudsLayer from "./CloudsLayer";
 import EnergyLinesLayer from "./EnergyLinesLayer";
 import CoreGlowLayer from "./CoreGlowLayer";
@@ -36,7 +35,6 @@ export default function DomPortalRenderer() {
       </div>
 
       <FogLayer />
-      <WaterLayer />
       <GodRaysLayer />
       <EnergyLinesLayer />
       <CoreGlowLayer />
