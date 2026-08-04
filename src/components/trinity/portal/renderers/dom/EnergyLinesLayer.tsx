@@ -12,27 +12,37 @@ const CORE = { x: 50, y: 48 };
 export default function EnergyLinesLayer() {
   const { prefersReducedMotion, focusedWorldId } = usePortalScene();
   const pulseRef = useRef<SVGCircleElement>(null);
+  const trailRef = useRef<SVGCircleElement>(null);
 
   const focusedWorld = worldList.find((w) => w.id === focusedWorldId) ?? null;
 
   useGSAP(
     () => {
       const el = pulseRef.current;
-      if (!el || !focusedWorld || prefersReducedMotion) return;
+      const trail = trailRef.current;
+      if (!el || !trail || !focusedWorld || prefersReducedMotion) return;
 
       const islandX = focusedWorld.hotspot.x + focusedWorld.hotspot.w / 2;
       const islandY = focusedWorld.hotspot.y + focusedWorld.hotspot.h / 2;
+      const travelS = FOCUS_TRAVEL_MS / 1000;
 
-      gsap.set(el, { attr: { cx: CORE.x, cy: CORE.y }, opacity: 0, fill: focusedWorld.theme.accent });
+      gsap.set([el, trail], { attr: { cx: CORE.x, cy: CORE.y }, opacity: 0, fill: focusedWorld.theme.accent });
       gsap
         .timeline()
-        .to(el, { opacity: 1, duration: 0.1 })
-        .to(el, {
-          attr: { cx: islandX, cy: islandY },
-          duration: FOCUS_TRAVEL_MS / 1000,
-          ease: "power2.inOut",
-        })
-        .to(el, { opacity: 0, duration: 0.25 }, `-=0.1`);
+        .to([el, trail], { opacity: 1, duration: 0.1 })
+        .to(
+          el,
+          { attr: { cx: islandX, cy: islandY }, duration: travelS, ease: "power2.inOut" },
+          0.05
+        )
+        .to(
+          trail,
+          { attr: { cx: islandX, cy: islandY }, duration: travelS, ease: "power2.inOut" },
+          0.18
+        )
+        .to(el, { attr: { r: 2.6 }, duration: 0.18, ease: "power1.out" }, `-=0.18`)
+        .to([el, trail], { opacity: 0, duration: 0.35 }, `-=0.05`)
+        .set(el, { attr: { r: 1.6 } });
     },
     { dependencies: [focusedWorldId], revertOnUpdate: true }
   );
@@ -56,6 +66,14 @@ export default function EnergyLinesLayer() {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <filter id="energy-glow-strong" x="-300%" y="-300%" width="700%" height="700%">
+          <feGaussianBlur stdDeviation="2.2" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
 
       {worldList.map((world) => {
@@ -70,19 +88,21 @@ export default function EnergyLinesLayer() {
             x2={islandX}
             y2={islandY}
             stroke={isFocused ? world.theme.accent : "url(#energy-gradient)"}
-            strokeWidth={isFocused ? 0.55 : 0.3}
+            strokeWidth={isFocused ? 1.1 : 0.4}
             strokeLinecap="round"
             className={prefersReducedMotion ? undefined : "energy-line"}
             style={{
-              opacity: prefersReducedMotion ? 0.25 : isFocused ? 1 : undefined,
+              opacity: prefersReducedMotion ? 0.3 : isFocused ? 1 : undefined,
               transition: "stroke-width 0.3s ease, opacity 0.3s ease",
-              filter: isFocused ? "url(#energy-glow)" : undefined,
+              filter: isFocused ? "url(#energy-glow-strong)" : undefined,
             }}
           />
         );
       })}
 
-      <circle ref={pulseRef} cx={CORE.x} cy={CORE.y} r="0.9" opacity="0" filter="url(#energy-glow)" />
+      {/* comet trail behind the main pulse */}
+      <circle ref={trailRef} cx={CORE.x} cy={CORE.y} r="1.1" opacity="0" filter="url(#energy-glow)" />
+      <circle ref={pulseRef} cx={CORE.x} cy={CORE.y} r="1.6" opacity="0" filter="url(#energy-glow-strong)" />
     </svg>
   );
 }

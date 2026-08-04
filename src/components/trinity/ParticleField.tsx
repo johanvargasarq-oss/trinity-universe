@@ -15,10 +15,13 @@ interface Particle {
   twinklePhase: number;
 }
 
-const KIND_CONFIG: Record<ParticleKind, { color: string; vyRange: [number, number]; vxRange: [number, number]; rRange: [number, number]; twinkle: boolean }> = {
-  ember: { color: "236, 72, 153", vyRange: [0.05, 0.3], vxRange: [0, 0], rRange: [0.4, 2], twinkle: false },
-  fireflies: { color: "245, 200, 120", vyRange: [-0.06, 0.06], vxRange: [-0.1, 0.1], rRange: [0.8, 2], twinkle: true },
-  dust: { color: "200, 210, 230", vyRange: [0.01, 0.06], vxRange: [-0.03, 0.03], rRange: [0.3, 1], twinkle: false },
+const KIND_CONFIG: Record<
+  ParticleKind,
+  { color: string; vyRange: [number, number]; vxRange: [number, number]; rRange: [number, number]; twinkle: boolean; glow: number }
+> = {
+  ember: { color: "236, 72, 153", vyRange: [0.05, 0.3], vxRange: [0, 0], rRange: [0.5, 2.4], twinkle: false, glow: 6 },
+  fireflies: { color: "255, 214, 140", vyRange: [-0.07, 0.07], vxRange: [-0.12, 0.12], rRange: [1.3, 3.2], twinkle: true, glow: 10 },
+  dust: { color: "210, 220, 235", vyRange: [0.01, 0.06], vxRange: [-0.03, 0.03], rRange: [0.3, 1], twinkle: false, glow: 0 },
 };
 
 export default function ParticleField({
@@ -50,7 +53,7 @@ export default function ParticleField({
       r: rand(cfg.rRange),
       vy: rand(cfg.vyRange),
       vx: rand(cfg.vxRange),
-      o: Math.random() * 0.5 + 0.15,
+      o: Math.random() * 0.4 + 0.45,
       twinkleSpeed: 0.5 + Math.random() * 1.5,
       twinklePhase: Math.random() * Math.PI * 2,
     }));
@@ -68,12 +71,17 @@ export default function ParticleField({
         if (p.x < -4) p.x = width + 4;
         if (p.x > width + 4) p.x = -4;
 
-        const opacity = cfg.twinkle ? p.o * (0.4 + 0.6 * Math.abs(Math.sin(t * p.twinkleSpeed + p.twinklePhase))) : p.o;
+        const opacity = cfg.twinkle ? p.o * (0.35 + 0.65 * Math.abs(Math.sin(t * p.twinkleSpeed + p.twinklePhase))) : p.o;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${cfg.color}, ${opacity})`;
+        if (cfg.glow > 0) {
+          ctx.shadowBlur = cfg.glow;
+          ctx.shadowColor = `rgba(${cfg.color}, ${Math.min(1, opacity * 1.4)})`;
+        }
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
       raf = requestAnimationFrame(render);
     };

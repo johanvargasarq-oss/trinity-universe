@@ -2,11 +2,12 @@
 
 import { MASTER_GRADIENT } from "@/lib/brands";
 import { usePortalScene } from "../../scene-context";
+import ParticleField from "@/components/trinity/ParticleField";
 
-const RING_DELAYS = [0, 2.4, 4.8];
+const RING_DELAYS = [0, 1.6, 3.2];
 
 export default function CoreGlowLayer() {
-  const { prefersReducedMotion } = usePortalScene();
+  const { prefersReducedMotion, isLowPower } = usePortalScene();
 
   return (
     <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
@@ -17,11 +18,12 @@ export default function CoreGlowLayer() {
             key={delay}
             className="absolute rounded-full core-wave"
             style={{
-              width: "6vw",
-              height: "6vw",
-              maxWidth: 110,
-              maxHeight: 110,
-              border: `1px solid ${MASTER_GRADIENT.via}`,
+              width: "7vw",
+              height: "7vw",
+              maxWidth: 130,
+              maxHeight: 130,
+              border: `2px solid ${MASTER_GRADIENT.via}`,
+              boxShadow: `0 0 20px 4px ${MASTER_GRADIENT.via}88`,
               animationDelay: `${delay}s`,
             }}
           />
@@ -31,14 +33,21 @@ export default function CoreGlowLayer() {
       <div
         className={`rounded-full ${prefersReducedMotion ? "" : "core-glow"}`}
         style={{
-          width: "18vw",
-          height: "18vw",
-          maxWidth: 320,
-          maxHeight: 320,
-          background: `radial-gradient(circle, ${MASTER_GRADIENT.via}55 0%, ${MASTER_GRADIENT.from}22 45%, transparent 70%)`,
-          filter: "blur(6px)",
+          width: "20vw",
+          height: "20vw",
+          maxWidth: 360,
+          maxHeight: 360,
+          background: `radial-gradient(circle, ${MASTER_GRADIENT.via}77 0%, ${MASTER_GRADIENT.from}33 45%, transparent 70%)`,
+          filter: "blur(5px)",
         }}
       />
+
+      {/* small particles continuously drifting off the core */}
+      {!prefersReducedMotion && !isLowPower && (
+        <div className="absolute" style={{ width: "22vw", height: "22vw", maxWidth: 380, maxHeight: 380 }}>
+          <ParticleField kind="fireflies" count={14} />
+        </div>
+      )}
     </div>
   );
 }

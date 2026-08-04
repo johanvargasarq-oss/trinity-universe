@@ -145,18 +145,18 @@ body {
 }
 
 .core-glow {
-  animation: core-pulse 4s ease-in-out infinite;
+  animation: core-pulse 3.4s ease-in-out infinite;
 }
 
 @keyframes core-pulse {
   0%,
   100% {
-    transform: scale(1);
-    opacity: 0.5;
+    transform: scale(0.92);
+    opacity: 0.55;
   }
   50% {
-    transform: scale(1.15);
-    opacity: 0.85;
+    transform: scale(1.25);
+    opacity: 1;
   }
 }
 
@@ -195,19 +195,19 @@ body {
 
 .core-wave {
   opacity: 0;
-  animation: core-wave-ping 7.2s ease-out infinite;
+  animation: core-wave-ping 4.8s ease-out infinite;
 }
 
 @keyframes core-wave-ping {
   0% {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.9;
   }
   30% {
-    opacity: 0.35;
+    opacity: 0.6;
   }
   100% {
-    transform: scale(4.5);
+    transform: scale(5.5);
     opacity: 0;
   }
 }
