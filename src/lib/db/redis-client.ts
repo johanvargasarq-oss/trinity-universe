@@ -1,42 +1,45 @@
-/** Low-level Redis REST client (Upstash / Vercel KV compatible). Every entity module builds on this. */
-export async function redisCmd(...args: (string | number)[]) {
-  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
+import Redis from "ioredis";
+
+/**
+ * Cached across warm serverless invocations (standard Next.js pattern) so we
+ * don't open a new TCP connection to Redis on every request.
+ */
+let client: Redis | null = null;
+
+function getClient(): Redis {
+  if (client) return client;
+
+  const url = process.env.REDIS_URL;
+  if (!url) {
     throw new Error(
-      "Falta configurar la base de datos: agrega una integración de Redis (Vercel KV / Upstash) al proyecto."
+      "Falta configurar la base de datos: agrega una integración de Redis al proyecto en Vercel."
     );
   }
-  const r = await fetch(url, {
-    method: "POST",
-    headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
-    body: JSON.stringify(args),
-  });
-  const data = await r.json();
-  if (data.error) throw new Error(data.error);
-  return data.result;
+  client = new Redis(url, { maxRetriesPerRequest: 3 });
+  return client;
 }
 
 /** Reads every value in a Redis hash, parsed as JSON, skipping corrupt entries. */
 export async function hashGetAll<T>(hashKey: string): Promise<T[]> {
-  const flat = await redisCmd("HGETALL", hashKey);
+  const redis = getClient();
+  const flat = await redis.hgetall(hashKey);
   const out: T[] = [];
-  if (Array.isArray(flat)) {
-    for (let i = 0; i < flat.length; i += 2) {
-      try {
-        out.push(JSON.parse(flat[i + 1]));
-      } catch {
-        // ignore corrupt entries
-      }
+  for (const value of Object.values(flat)) {
+    try {
+      out.push(JSON.parse(value));
+    } catch {
+      // ignore corrupt entries
     }
   }
   return out;
 }
 
 export async function hashSet(hashKey: string, id: string, value: unknown): Promise<void> {
-  await redisCmd("HSET", hashKey, id, JSON.stringify(value));
+  const redis = getClient();
+  await redis.hset(hashKey, id, JSON.stringify(value));
 }
 
 export async function hashDelete(hashKey: string, id: string): Promise<void> {
-  await redisCmd("HDEL", hashKey, id);
+  const redis = getClient();
+  await redis.hdel(hashKey, id);
 }
