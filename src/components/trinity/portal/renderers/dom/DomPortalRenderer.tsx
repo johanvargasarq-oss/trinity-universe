@@ -3,10 +3,14 @@
 import Image from "next/image";
 import ParticleField from "@/components/trinity/ParticleField";
 import { useParallaxStyle } from "../../useParallaxStyle";
+import { usePortalScene } from "../../scene-context";
 import WaterLayer from "./WaterLayer";
 import CloudsLayer from "./CloudsLayer";
 import EnergyLinesLayer from "./EnergyLinesLayer";
 import CoreGlowLayer from "./CoreGlowLayer";
+import GodRaysLayer from "./GodRaysLayer";
+import FogLayer from "./FogLayer";
+import BirdsLayer from "./BirdsLayer";
 
 /**
  * Phase 1 renderer: the 4k illustration plus independent animated DOM/CSS
@@ -16,6 +20,7 @@ import CoreGlowLayer from "./CoreGlowLayer";
  */
 export default function DomPortalRenderer() {
   const imageParallax = useParallaxStyle(2);
+  const { isLowPower } = usePortalScene();
 
   return (
     <>
@@ -30,12 +35,15 @@ export default function DomPortalRenderer() {
         />
       </div>
 
+      <FogLayer />
       <WaterLayer />
+      <GodRaysLayer />
       <EnergyLinesLayer />
       <CoreGlowLayer />
       <CloudsLayer />
+      <BirdsLayer />
       <div className="absolute inset-0">
-        <ParticleField kind="fireflies" count={28} />
+        <ParticleField kind="fireflies" count={isLowPower ? 12 : 28} />
       </div>
 
       <div

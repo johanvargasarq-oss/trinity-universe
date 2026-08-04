@@ -160,6 +160,67 @@ body {
   }
 }
 
+.god-rays {
+  animation: god-rays-breathe 8s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes god-rays-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.08);
+  }
+}
+
+.portal-fog {
+  animation: portal-fog-drift 22s ease-in-out infinite;
+}
+
+@keyframes portal-fog-drift {
+  0%,
+  100% {
+    transform: translateX(-2%);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(2%);
+    opacity: 1;
+  }
+}
+
+.core-wave {
+  opacity: 0;
+  animation: core-wave-ping 7.2s ease-out infinite;
+}
+
+@keyframes core-wave-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  30% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(4.5);
+    opacity: 0;
+  }
+}
+
+@keyframes portal-camera-settle {
+  0% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .trinity-gradient-text {
   background-image: linear-gradient(
     90deg,

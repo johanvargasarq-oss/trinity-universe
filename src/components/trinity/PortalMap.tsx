@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { worldList } from "@/lib/brands";
 import IslandHotspot from "./IslandHotspot";
 import PortalScene from "./portal/PortalScene";
+import SoundToggle from "./portal/SoundToggle";
 
 export default function PortalMap() {
   return (
@@ -25,6 +26,8 @@ export default function PortalMap() {
         </h1>
         <p className="text-white/70 mt-2 text-sm sm:text-base">Selecciona tu experiencia</p>
       </motion.div>
+
+      <SoundToggle />
     </section>
   );
 }

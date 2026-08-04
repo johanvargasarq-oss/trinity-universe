@@ -1,6 +1,6 @@
 "use client";
 
-import { PortalSceneProvider } from "./scene-context";
+import { PortalSceneProvider, usePortalScene } from "./scene-context";
 import DomPortalRenderer from "./renderers/dom/DomPortalRenderer";
 
 /**
@@ -13,10 +13,25 @@ import DomPortalRenderer from "./renderers/dom/DomPortalRenderer";
 export default function PortalScene({ children }: { children: React.ReactNode }) {
   return (
     <PortalSceneProvider>
-      <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 aspect-video sm:inset-0 sm:translate-y-0 sm:aspect-auto">
-        <DomPortalRenderer />
-        {children}
-      </div>
+      <PortalSceneBox>{children}</PortalSceneBox>
     </PortalSceneProvider>
+  );
+}
+
+function PortalSceneBox({ children }: { children: React.ReactNode }) {
+  const { isReturning, prefersReducedMotion } = usePortalScene();
+
+  return (
+    <div
+      className="absolute left-0 right-0 top-1/2 -translate-y-1/2 aspect-video sm:inset-0 sm:translate-y-0 sm:aspect-auto"
+      style={
+        isReturning && !prefersReducedMotion
+          ? { animation: "portal-camera-settle 0.9s cubic-bezier(0.16,1,0.3,1) both" }
+          : undefined
+      }
+    >
+      <DomPortalRenderer />
+      {children}
+    </div>
   );
 }
