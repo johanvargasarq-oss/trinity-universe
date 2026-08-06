@@ -6,7 +6,7 @@ const VALID_WORLDS: OrderWorldId[] = ["fries", "arepas", "slush"];
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { worldId, lines, notes, total, clienteNombre, clienteTelefono } = body || {};
+    const { worldId, lines, notes, total, clienteNombre, clienteTelefono, entregaTipo, entregaDireccion } = body || {};
     if (!VALID_WORLDS.includes(worldId) || !Array.isArray(lines) || lines.length === 0 || typeof total !== "number") {
       return NextResponse.json({ error: "Faltan datos" }, { status: 400 });
     }
@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
       clienteNombre: clienteNombre || undefined,
       clienteTelefono: clienteTelefono || undefined,
       estado: "pendiente",
+      canal: "whatsapp",
+      entrega:
+        entregaTipo === "domicilio"
+          ? { tipo: "domicilio", direccion: entregaDireccion || undefined }
+          : { tipo: "local" },
       creadoEn: new Date().toISOString(),
     };
     await saveOrder(order);

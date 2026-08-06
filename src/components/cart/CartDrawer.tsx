@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import type { WorldConfig } from "@/lib/brands";
 import type { CartLine } from "@/lib/cart/createCartStore";
+import type { DeliveryType } from "@/lib/cart/delivery";
 
 const currency = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
@@ -18,6 +19,10 @@ export default function CartDrawer<T>({
   onCustomerNameChange,
   customerPhone,
   onCustomerPhoneChange,
+  deliveryType,
+  onDeliveryTypeChange,
+  deliveryAddress,
+  onDeliveryAddressChange,
   onUpdateQuantity,
   onRemove,
   renderLine,
@@ -35,13 +40,18 @@ export default function CartDrawer<T>({
   onCustomerNameChange: (name: string) => void;
   customerPhone: string;
   onCustomerPhoneChange: (phone: string) => void;
+  deliveryType: DeliveryType;
+  onDeliveryTypeChange: (type: DeliveryType) => void;
+  deliveryAddress: string;
+  onDeliveryAddressChange: (address: string) => void;
   onUpdateQuantity: (id: string, quantity: number) => void;
   onRemove: (id: string) => void;
   renderLine: (line: CartLine<T>) => React.ReactNode;
   onCheckout: () => void;
   checkoutDisabled?: boolean;
 }) {
-  const missingCustomerInfo = !customerName.trim() || !customerPhone.trim();
+  const missingCustomerInfo =
+    !customerName.trim() || !customerPhone.trim() || (deliveryType === "domicilio" && !deliveryAddress.trim());
   return (
     <AnimatePresence>
       {isOpen && (
@@ -118,6 +128,48 @@ export default function CartDrawer<T>({
 
               {lines.length > 0 && (
                 <div className="space-y-3 pt-2">
+                  <div>
+                    <span className="text-xs opacity-60">Entrega</span>
+                    <div className="mt-1 grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => onDeliveryTypeChange("local")}
+                        className="rounded-lg border py-2.5 text-sm transition-colors"
+                        style={{
+                          borderColor: deliveryType === "local" ? world.theme.accent : world.theme.border,
+                          background: deliveryType === "local" ? world.theme.accentSoft : "transparent",
+                          color: deliveryType === "local" ? world.theme.accent : world.theme.text,
+                        }}
+                      >
+                        📍 En el local
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onDeliveryTypeChange("domicilio")}
+                        className="rounded-lg border py-2.5 text-sm transition-colors"
+                        style={{
+                          borderColor: deliveryType === "domicilio" ? world.theme.accent : world.theme.border,
+                          background: deliveryType === "domicilio" ? world.theme.accentSoft : "transparent",
+                          color: deliveryType === "domicilio" ? world.theme.accent : world.theme.text,
+                        }}
+                      >
+                        🛵 A domicilio
+                      </button>
+                    </div>
+                  </div>
+                  {deliveryType === "domicilio" && (
+                    <label className="block">
+                      <span className="text-xs opacity-60">Dirección de entrega</span>
+                      <textarea
+                        value={deliveryAddress}
+                        onChange={(e) => onDeliveryAddressChange(e.target.value)}
+                        rows={2}
+                        placeholder="Ej: Cra 27 #45-12, apto 302, Cabecera"
+                        className="mt-1 w-full rounded-lg border bg-transparent px-3 py-2 text-sm placeholder:opacity-40"
+                        style={{ borderColor: world.theme.border }}
+                      />
+                    </label>
+                  )}
                   <label className="block">
                     <span className="text-xs opacity-60">Tu nombre</span>
                     <input

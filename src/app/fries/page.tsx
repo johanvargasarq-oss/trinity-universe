@@ -14,6 +14,7 @@ import CartDrawer from "@/components/cart/CartDrawer";
 import { useFriesCart } from "@/lib/cart/fries-cart";
 import { cartCount, cartTotal } from "@/lib/cart/createCartStore";
 import { buildFriesOrderMessage } from "@/lib/cart/messages";
+import type { DeliveryType } from "@/lib/cart/delivery";
 
 const world = worlds.fries;
 
@@ -22,6 +23,8 @@ export default function FriesPage() {
   const cart = useFriesCart();
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
+  const [deliveryType, setDeliveryType] = useState<DeliveryType>("local");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
 
   function handleAddToCart(product: MenuProduct, variant: MenuProductVariant | null, quantity: number) {
     cart.addLine({
@@ -35,7 +38,7 @@ export default function FriesPage() {
 
   async function handleCheckout() {
     const total = cartTotal(cart.lines);
-    const message = buildFriesOrderMessage(cart.lines, cart.notes, total, customerName);
+    const message = buildFriesOrderMessage(cart.lines, cart.notes, total, customerName, deliveryType, deliveryAddress);
 
     try {
       await fetch("/api/orders", {
@@ -52,6 +55,8 @@ export default function FriesPage() {
           total,
           clienteNombre: customerName,
           clienteTelefono: customerPhone,
+          entregaTipo: deliveryType,
+          entregaDireccion: deliveryAddress,
         }),
       });
     } catch {
@@ -64,6 +69,8 @@ export default function FriesPage() {
     cart.clear();
     setCustomerName("");
     setCustomerPhone("");
+    setDeliveryType("local");
+    setDeliveryAddress("");
   }
 
   return (
@@ -87,6 +94,10 @@ export default function FriesPage() {
         onCustomerNameChange={setCustomerName}
         customerPhone={customerPhone}
         onCustomerPhoneChange={setCustomerPhone}
+        deliveryType={deliveryType}
+        onDeliveryTypeChange={setDeliveryType}
+        deliveryAddress={deliveryAddress}
+        onDeliveryAddressChange={setDeliveryAddress}
         onUpdateQuantity={cart.updateQuantity}
         onRemove={cart.removeLine}
         onCheckout={handleCheckout}

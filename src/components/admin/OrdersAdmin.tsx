@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import AdminShell from "@/components/admin/AdminShell";
 import StatCard from "@/components/admin/StatCard";
 import { adminFetch } from "@/lib/admin-auth-client";
@@ -58,9 +59,20 @@ function OrdersBody({ world }: { world: WorldConfig }) {
 
   return (
       <div className="px-5 sm:px-8 py-8 max-w-5xl">
-        <h1 className="font-display text-2xl text-white mb-1">
-          {world.emoji} {world.name}
-        </h1>
+        <div className="flex flex-wrap items-start justify-between gap-4 mb-1">
+          <h1 className="font-display text-2xl text-white">
+            {world.emoji} {world.name}
+          </h1>
+          {worldId === "slush" && (
+            <Link
+              href="/admin/slush/venta"
+              className="rounded-full px-4 py-2 text-sm font-medium"
+              style={{ background: world.theme.accent, color: "#0a0a0a" }}
+            >
+              + Registrar venta
+            </Link>
+          )}
+        </div>
         <p className="text-white/40 text-sm mb-8">Pedidos y actividad de hoy</p>
 
         {error && <p className="text-red-400 text-sm">{error}</p>}
@@ -79,7 +91,19 @@ function OrdersBody({ world }: { world: WorldConfig }) {
                 <div key={o.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
                   <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
                     <div>
-                      <div className="text-white font-medium">{o.clienteNombre || "Cliente"}</div>
+                      <div className="text-white font-medium flex items-center gap-2 flex-wrap">
+                        {o.clienteNombre || "Cliente"}
+                        {o.canal === "mostrador" && (
+                          <span className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide bg-white/10 text-white/60">
+                            🧾 Mostrador
+                          </span>
+                        )}
+                        {o.entrega?.tipo === "domicilio" && (
+                          <span className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide bg-white/10 text-white/60">
+                            🛵 Domicilio
+                          </span>
+                        )}
+                      </div>
                       <div className="text-white/40 text-xs">
                         {o.clienteTelefono} · {new Date(o.creadoEn).toLocaleString("es-CO")}
                       </div>
@@ -107,6 +131,9 @@ function OrdersBody({ world }: { world: WorldConfig }) {
                       </div>
                     ))}
                   </div>
+                  {o.entrega?.tipo === "domicilio" && o.entrega.direccion && (
+                    <div className="text-white/40 text-xs mt-2">🛵 {o.entrega.direccion}</div>
+                  )}
                   {o.notes && <div className="text-white/40 text-xs mt-2">📝 {o.notes}</div>}
                   <div className="flex justify-between mt-3 pt-3 border-t border-white/10 text-sm">
                     <span className="text-white/50">Total</span>

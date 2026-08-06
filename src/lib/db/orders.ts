@@ -11,6 +11,8 @@ export interface OrderLineSnapshot {
   unitPrice: number;
 }
 
+export type OrderCanal = "whatsapp" | "mostrador";
+
 export interface Order {
   id: string;
   worldId: OrderWorldId;
@@ -20,6 +22,8 @@ export interface Order {
   clienteNombre?: string;
   clienteTelefono?: string;
   estado: OrderEstado;
+  canal?: OrderCanal;
+  entrega?: { tipo: "local" | "domicilio"; direccion?: string };
   creadoEn: string;
   actualizadoEn?: string;
 }
