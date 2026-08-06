@@ -17,7 +17,7 @@ export interface WorldMedia {
 }
 
 export interface WorldContact {
-  addresses?: { label: string; line: string }[];
+  addresses?: { label: string; line: string; mapsUrl?: string }[];
   phone?: string;
   hours?: string;
   whatsapp?: string;
@@ -73,7 +73,12 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     contact: {
       addresses: [
-        { label: "Cabecera", line: "Cra 38 #46-147, Cabecera" },
+        {
+          label: "Cabecera",
+          line: "Cra 38 #46-147, Cabecera",
+          mapsUrl:
+            "https://www.google.com/maps/place/Trinity/@7.1173249,-73.1082259,3a,75y,90t/data=!3m8!1e2!3m6!1sCIHM0ogKEICAgMCA8PDykgE!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHRPTWl9znJ8WrcZ4FTY0Xy7-FvsvcrBgQTdB20c_7Z5rNzIcnQl6gS8_M0Z-Gfoyivu2hL9iR_6kaShjO5Z3bRGgahHZ3auQqIIdUd0OPssdnDcxXOz_2ErVtkFTh0v6Lw9E7octleM%3Dw203-h270-k-no!7i3024!8i4032!4m11!1m2!2m1!1sCra+38+%2346-147,+Cabecera,+Bucaramanga,+Colombia!3m7!1s0x8e683f9aba468c63:0x9df03bff51bb399e!8m2!3d7.1173242!4d-73.1081634!10e5!15sCi9DcmEgMzggIzQ2LTE0NywgQ2FiZWNlcmEsIEJ1Y2FyYW1hbmdhLCBDb2xvbWJpYZIBC2JhcmJlcl9zaG9w4AEA!16s%2Fg%2F11x1zck1w1?hl=es&entry=ttu",
+        },
         { label: "Soto Mayor", line: "Calle 53 #23-67, Soto Mayor" },
       ],
       phone: "3246027086",

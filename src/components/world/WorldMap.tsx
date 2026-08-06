@@ -12,31 +12,49 @@ export default function WorldMap({ world }: { world: WorldConfig }) {
       <div className="max-w-5xl mx-auto">
         <h2 className="font-display text-2xl sm:text-3xl text-world-text mb-10">Ubicaciones</h2>
         <div className="grid sm:grid-cols-2 gap-6">
-          {addresses.map((a, i) => (
-            <motion.div
-              key={a.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="rounded-2xl overflow-hidden border"
-              style={{ borderColor: world.theme.border }}
-            >
-              <div className="aspect-video">
-                <iframe
-                  title={`Mapa ${a.label}`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(a.line + ", Bucaramanga, Colombia")}&output=embed`}
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-              <div className="p-4" style={{ background: world.theme.bgAlt }}>
-                <div className="text-world-text font-medium">{a.label}</div>
-                <div className="text-world-text-muted text-sm">{a.line}</div>
-              </div>
-            </motion.div>
-          ))}
+          {addresses.map((a, i) => {
+            const targetUrl =
+              a.mapsUrl ??
+              `https://www.google.com/maps?q=${encodeURIComponent(a.line + ", Bucaramanga, Colombia")}`;
+            return (
+              <motion.div
+                key={a.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="rounded-2xl overflow-hidden border"
+                style={{ borderColor: world.theme.border }}
+              >
+                <div className="relative aspect-video">
+                  <iframe
+                    title={`Mapa ${a.label}`}
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(a.line + ", Bucaramanga, Colombia")}&output=embed`}
+                    className="w-full h-full border-0 pointer-events-none"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  <a
+                    href={targetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0"
+                    aria-label={`Ver ${a.label} en Google Maps`}
+                  />
+                </div>
+                <a
+                  href={targetUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-4"
+                  style={{ background: world.theme.bgAlt }}
+                >
+                  <div className="text-world-text font-medium">{a.label}</div>
+                  <div className="text-world-text-muted text-sm">{a.line}</div>
+                </a>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
