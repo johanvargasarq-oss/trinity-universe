@@ -113,6 +113,14 @@ export const worlds: Record<WorldId, WorldConfig> = {
       cardImage: "/media/fries/hero.png",
     },
     contact: {
+      addresses: [
+        {
+          label: "Av. La Rosita",
+          line: "Av. La Rosita, Barrio Bolívar",
+          mapsUrl:
+            "https://www.google.com/maps/place/Trinifries/@7.1175445,-73.1183064,3a,75y,290.37h,90.71t/data=!3m7!1e1!3m5!1s4YzvM9RUencFD8YfnZa9NA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-0.7084320010136906%26panoid%3D4YzvM9RUencFD8YfnZa9NA%26yaw%3D290.3682531820629!7i16384!8i8192!4m6!3m5!1s0x8e683f6fd7b527d1:0xa617f0478e4ed074!8m2!3d7.1174616!4d-73.1184393!16s%2Fg%2F11xrvmlsq5?hl=es&entry=ttu",
+        },
+      ],
       whatsapp: "573125532900",
       instagram: { handle: "@trinifries_bga", url: "https://instagram.com/trinifries_bga" },
     },
@@ -172,6 +180,14 @@ export const worlds: Record<WorldId, WorldConfig> = {
       cardImage: "/media/arepas/hero.png",
     },
     contact: {
+      addresses: [
+        {
+          label: "Av. La Rosita",
+          line: "Av. La Rosita N22-99, Barrio Bolívar",
+          mapsUrl:
+            "https://www.google.com/maps/place/TriniArepas/@7.1173374,-73.1187748,3a,63.7y,15.66h,94.67t/data=!3m7!1e1!3m5!1s6mwDgX1hpBZeM3aBiXi3zA!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-4.667024438757508%26panoid%3D6mwDgX1hpBZeM3aBiXi3zA%26yaw%3D15.6635104183276!7i16384!8i8192!4m10!1m2!2m1!1striny+arepas!3m6!1s0x8e683f00793503cd:0xaec1b81becadce30!8m2!3d7.1175545!4d-73.1186345!15sCgx0cmlueSBhcmVwYXNaDiIMdHJpbnkgYXJlcGFzkgEKcmVzdGF1cmFudOABAA!16s%2Fg%2F11z8rp68fc?hl=es&entry=ttu",
+        },
+      ],
       whatsapp: "573170604705",
       instagram: { handle: "@triniarepas_", url: "https://instagram.com/triniarepas_" },
     },

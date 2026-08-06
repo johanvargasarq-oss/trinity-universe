@@ -7,6 +7,7 @@ import arepasMenu from "@/data/arepas-menu.json";
 import WorldNav from "@/components/world/WorldNav";
 import WorldHero from "@/components/world/WorldHero";
 import BuildYourOwnMenu, { type BuildStep, type BuildSelection } from "@/components/menu/BuildYourOwnMenu";
+import WorldMap from "@/components/world/WorldMap";
 import WorldContactBlock from "@/components/world/WorldContactBlock";
 import CartFloatingButton from "@/components/cart/CartFloatingButton";
 import CartDrawer from "@/components/cart/CartDrawer";
@@ -76,6 +77,7 @@ export default function ArepasPage() {
       <WorldNav world={world} />
       <WorldHero world={world} />
       <BuildYourOwnMenu world={world} pasos={arepasMenu.pasos as BuildStep[]} onAddToCart={handleAddToCart} />
+      <WorldMap world={world} />
       <WorldContactBlock world={world} />
 
       <CartFloatingButton world={world} count={cartCount(cart.lines)} onClick={cart.open} />

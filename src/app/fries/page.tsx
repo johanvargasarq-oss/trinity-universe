@@ -7,6 +7,7 @@ import friesMenu from "@/data/fries-menu.json";
 import WorldNav from "@/components/world/WorldNav";
 import WorldHero from "@/components/world/WorldHero";
 import MenuCatalog, { type MenuProduct, type MenuProductVariant } from "@/components/menu/MenuCatalog";
+import WorldMap from "@/components/world/WorldMap";
 import WorldContactBlock from "@/components/world/WorldContactBlock";
 import CartFloatingButton from "@/components/cart/CartFloatingButton";
 import CartDrawer from "@/components/cart/CartDrawer";
@@ -70,6 +71,7 @@ export default function FriesPage() {
       <WorldNav world={world} />
       <WorldHero world={world} />
       <MenuCatalog world={world} categorias={friesMenu.categorias} onAddToCart={handleAddToCart} />
+      <WorldMap world={world} />
       <WorldContactBlock world={world} />
 
       <CartFloatingButton world={world} count={cartCount(cart.lines)} onClick={cart.open} />
