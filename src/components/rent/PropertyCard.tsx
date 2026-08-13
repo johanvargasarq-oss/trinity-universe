@@ -8,7 +8,15 @@ import { worlds } from "@/lib/brands";
 const currency = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 const world = worlds.rent;
 
-export default function PropertyCard({ property, href }: { property: Property; href: string }) {
+export default function PropertyCard({
+  property,
+  href,
+  stayTotal,
+}: {
+  property: Property;
+  href: string;
+  stayTotal?: number | null;
+}) {
   const cover = property.media.images[0];
 
   return (
@@ -40,9 +48,18 @@ export default function PropertyCard({ property, href }: { property: Property; h
           {property.capacity.maxGuests} huéspedes · {property.rooms.bedrooms} hab · {property.rooms.bathrooms} baños
         </div>
         <div className="text-sm mb-4">
-          <span className="text-world-text-muted">Desde </span>
-          <span className="font-medium" style={{ color: world.theme.accent }}>{currency.format(property.pricing.basePrice)}</span>
-          <span className="text-world-text-muted"> / noche</span>
+          {stayTotal ? (
+            <>
+              <span className="font-medium" style={{ color: world.theme.accent }}>{currency.format(stayTotal)}</span>
+              <span className="text-world-text-muted"> total para tu estadía</span>
+            </>
+          ) : (
+            <>
+              <span className="text-world-text-muted">Desde </span>
+              <span className="font-medium" style={{ color: world.theme.accent }}>{currency.format(property.pricing.basePrice)}</span>
+              <span className="text-world-text-muted"> / noche</span>
+            </>
+          )}
         </div>
         <Link
           href={href}

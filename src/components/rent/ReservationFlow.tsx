@@ -24,14 +24,28 @@ function toISO(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
 
-export default function ReservationFlow({ property }: { property: Property }) {
+export default function ReservationFlow({
+  property,
+  initialCheckIn,
+  initialCheckOut,
+  initialAdultos,
+  initialNinos,
+}: {
+  property: Property;
+  initialCheckIn?: string;
+  initialCheckOut?: string;
+  initialAdultos?: number;
+  initialNinos?: number;
+}) {
   const [step, setStep] = useState<Step>("fechas");
   const [occupied, setOccupied] = useState<{ from: string; to: string }[]>([]);
-  const [range, setRange] = useState<DateRange | undefined>(undefined);
+  const [range, setRange] = useState<DateRange | undefined>(
+    initialCheckIn && initialCheckOut ? { from: new Date(initialCheckIn + "T00:00:00"), to: new Date(initialCheckOut + "T00:00:00") } : undefined
+  );
   const [rangeError, setRangeError] = useState("");
 
-  const [adultos, setAdultos] = useState(1);
-  const [ninos, setNinos] = useState(0);
+  const [adultos, setAdultos] = useState(initialAdultos ?? 1);
+  const [ninos, setNinos] = useState(initialNinos ?? 0);
   const [bebes, setBebes] = useState(0);
 
   const [nombreCompleto, setNombreCompleto] = useState("");

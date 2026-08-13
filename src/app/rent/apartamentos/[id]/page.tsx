@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { worlds } from "@/lib/brands";
 import { useRevealWorld } from "@/hooks/useRevealWorld";
 import type { Property } from "@/lib/db/properties";
@@ -11,6 +12,7 @@ const world = worlds.rent;
 
 export default function ApartamentoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const searchParams = useSearchParams();
   useRevealWorld();
   const [property, setProperty] = useState<Property | null | undefined>(undefined);
 
@@ -32,7 +34,15 @@ export default function ApartamentoPage({ params }: { params: Promise<{ id: stri
           No encontramos ese apartamento.
         </div>
       )}
-      {property && <PropertyDetail property={property} />}
+      {property && (
+        <PropertyDetail
+          property={property}
+          initialCheckIn={searchParams.get("checkIn") ?? undefined}
+          initialCheckOut={searchParams.get("checkOut") ?? undefined}
+          initialAdultos={searchParams.get("adultos") ? Number(searchParams.get("adultos")) : undefined}
+          initialNinos={searchParams.get("ninos") ? Number(searchParams.get("ninos")) : undefined}
+        />
+      )}
     </>
   );
 }
