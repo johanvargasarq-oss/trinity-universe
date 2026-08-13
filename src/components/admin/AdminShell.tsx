@@ -11,7 +11,7 @@ const NAV = [
   { href: "/admin/fries", label: "TriniFries", emoji: "🍟" },
   { href: "/admin/arepas", label: "TriniArepas", emoji: "🌮" },
   { href: "/admin/slush", label: "TriniSlush", emoji: "🥤" },
-  { href: null, label: "Beach Rental", emoji: "🏖️", comingSoon: true },
+  { href: "/admin/rent", label: "Beach Rental", emoji: "🏖️" },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
@@ -92,21 +92,11 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         <div className="font-display text-lg trinity-gradient-text mb-6 px-2">TRINITY ADMIN</div>
         <nav className="flex sm:flex-col gap-1 overflow-x-auto">
           {NAV.map((item) => {
-            const isActive = item.href && pathname === item.href;
-            if (item.comingSoon) {
-              return (
-                <span
-                  key={item.label}
-                  className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-white/25 whitespace-nowrap shrink-0"
-                >
-                  <span>{item.emoji}</span> {item.label}
-                </span>
-              );
-            }
+            const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
-                href={item.href!}
+                href={item.href}
                 className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm whitespace-nowrap shrink-0 transition-colors ${
                   isActive ? "bg-white/10 text-white" : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}

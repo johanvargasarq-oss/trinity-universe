@@ -198,12 +198,12 @@ export const worlds: Record<WorldId, WorldConfig> = {
   rent: {
     id: "rent",
     slug: "/rent",
-    name: "TriniRent",
-    shortName: "Rent",
+    name: "Trini Beach Rental",
+    shortName: "Beach Rental",
     emoji: "🏖️",
     tagline: "Tu playa te espera",
     description:
-      "Alojamiento frente al mar en Santa Marta. Un espacio para desconectarte, con el mismo estándar premium del universo Trinity.",
+      "Trini House y 16 apartamentos frente al mar en Santa Marta. Elige tu alojamiento, consulta disponibilidad real y reserva con el mismo estándar premium del universo Trinity.",
     theme: {
       bg: "#04191c",
       bgAlt: "#07272b",

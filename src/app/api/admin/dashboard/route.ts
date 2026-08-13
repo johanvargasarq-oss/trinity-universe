@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAllOrders } from "@/lib/db/orders";
 import { getAllBookings } from "@/lib/db/bookings";
+import { getAllReservations } from "@/lib/db/reservations";
+import { getAllProperties } from "@/lib/db/properties";
 import { checkAdminAuth } from "@/lib/admin-auth-server";
 
 function isToday(iso: string) {
@@ -20,7 +22,12 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const [orders, bookings] = await Promise.all([getAllOrders(), getAllBookings()]);
+    const [orders, bookings, rentReservations, rentProperties] = await Promise.all([
+      getAllOrders(),
+      getAllBookings(),
+      getAllReservations(),
+      getAllProperties(),
+    ]);
 
     const ordersToday = orders.filter((o) => isToday(o.creadoEn));
     const bookingsToday = bookings.filter((b) => isToday(b.creadoEn));
@@ -61,6 +68,20 @@ export async function GET(req: NextRequest) {
       slush: ordersToday.filter((o) => o.worldId === "slush").length,
     };
 
+    const today = new Date().toISOString().slice(0, 10);
+    const rentReservasPendientes = rentReservations.filter((r) => r.estado === "pendiente").length;
+    const rentReservasHoy = rentReservations.filter((r) => isToday(r.creadoEn)).length;
+    const rentIngresos = rentReservations
+      .filter((r) => r.estado === "confirmada" || r.estado === "finalizada")
+      .reduce((s, r) => s + r.total, 0);
+    const rentOcupacion = rentProperties.length
+      ? new Set(
+          rentReservations
+            .filter((r) => r.estado === "confirmada" && today >= r.checkIn && today < r.checkOut)
+            .map((r) => r.propertyId)
+        ).size / rentProperties.length
+      : 0;
+
     return NextResponse.json(
       {
         ventasHoy,
@@ -75,6 +96,10 @@ export async function GET(req: NextRequest) {
         topProductos,
         ingresosPorNegocio,
         pedidosPorNegocioHoy,
+        rentReservasPendientes,
+        rentReservasHoy,
+        rentIngresos,
+        rentOcupacion,
       },
       { headers: { "Cache-Control": "no-store" } }
     );

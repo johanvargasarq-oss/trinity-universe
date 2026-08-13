@@ -18,6 +18,10 @@ interface DashboardData {
   topProductos: { nombre: string; cantidad: number }[];
   ingresosPorNegocio: { barberia: number; fries: number; arepas: number; slush: number };
   pedidosPorNegocioHoy: { fries: number; arepas: number; slush: number };
+  rentReservasPendientes: number;
+  rentReservasHoy: number;
+  rentIngresos: number;
+  rentOcupacion: number;
 }
 
 export default function AdminDashboardPage() {
@@ -90,7 +94,7 @@ function DashboardBody() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 mb-10">
               <h2 className="text-white font-medium mb-4">Pedidos de hoy por negocio</h2>
               <div className="grid grid-cols-3 gap-4">
                 {(["fries", "arepas", "slush"] as const).map((id) => (
@@ -101,6 +105,28 @@ function DashboardBody() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <h2 className="text-white font-medium mb-4">🏖️ Trini Beach Rental</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-display text-white">{data.rentReservasPendientes}</div>
+                  <div className="text-white/50 text-xs mt-1">Pendientes</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-display text-white">{data.rentReservasHoy}</div>
+                  <div className="text-white/50 text-xs mt-1">Reservas hoy</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-display text-white">{currency.format(data.rentIngresos)}</div>
+                  <div className="text-white/50 text-xs mt-1">Ingresos</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-display text-white">{Math.round(data.rentOcupacion * 100)}%</div>
+                  <div className="text-white/50 text-xs mt-1">Ocupación hoy</div>
+                </div>
               </div>
             </div>
           </>
