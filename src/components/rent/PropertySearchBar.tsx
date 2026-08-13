@@ -77,14 +77,15 @@ export default function PropertySearchBar({ onSearch }: { onSearch: (params: Sea
       </div>
 
       {openPanel === "fechas" && (
-        <div className="absolute z-30 mt-2 rounded-2xl border p-3" style={{ borderColor: world.theme.border, background: world.theme.bg }}>
+        <div className="absolute z-30 mt-2 rounded-2xl border p-3 max-w-[95vw] overflow-x-auto" style={{ borderColor: world.theme.border, background: world.theme.bg }}>
           <DayPicker
             mode="range"
-            numberOfMonths={1}
+            numberOfMonths={2}
             selected={range}
             onSelect={setRange}
             disabled={{ before: new Date() }}
             style={{ "--rdp-accent-color": world.theme.accent, "--rdp-accent-background-color": world.theme.accentSoft } as React.CSSProperties}
+            className="w-fit"
           />
           <div className="flex justify-between px-2 pb-2">
             <button onClick={limpiar} className="text-xs text-world-text-muted underline">Limpiar</button>

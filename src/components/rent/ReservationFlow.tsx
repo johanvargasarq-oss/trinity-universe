@@ -198,19 +198,29 @@ export default function ReservationFlow({
 
         {/* Step tracker */}
         <div className="flex flex-wrap gap-2 mb-8">
-          {STEPS.map((s, i) => (
-            <div
-              key={s.id}
-              className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs"
-              style={{
-                background: step === s.id ? world.theme.accentSoft : "transparent",
-                color: step === s.id ? world.theme.accent : "var(--world-text-muted)",
-                border: `1px solid ${step === s.id ? world.theme.accent : world.theme.border}`,
-              }}
-            >
-              {i + 1}. {s.label}
-            </div>
-          ))}
+          {STEPS.map((s, i) => {
+            const currentIndex = STEPS.findIndex((x) => x.id === step);
+            const isPast = i < currentIndex;
+            const isClickable = isPast || s.id === step;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                disabled={!isClickable}
+                onClick={() => isPast && goToStep(s.id)}
+                className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs transition-colors"
+                style={{
+                  background: step === s.id ? world.theme.accentSoft : "transparent",
+                  color: step === s.id ? world.theme.accent : isPast ? "var(--world-text)" : "var(--world-text-muted)",
+                  border: `1px solid ${step === s.id ? world.theme.accent : world.theme.border}`,
+                  cursor: isPast ? "pointer" : "default",
+                  opacity: isClickable ? 1 : 0.5,
+                }}
+              >
+                {i + 1}. {s.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* Persistent summary once dates are chosen */}
@@ -240,15 +250,17 @@ export default function ReservationFlow({
 
         {step === "fechas" && (
           <div>
-            <DayPicker
-              mode="range"
-              numberOfMonths={1}
-              selected={range}
-              onSelect={handleSelectRange}
-              disabled={disabledMatchers}
-              style={{ "--rdp-accent-color": world.theme.accent, "--rdp-accent-background-color": world.theme.accentSoft } as React.CSSProperties}
-              className="mx-auto"
-            />
+            <div className="overflow-x-auto pb-2">
+              <DayPicker
+                mode="range"
+                numberOfMonths={2}
+                selected={range}
+                onSelect={handleSelectRange}
+                disabled={disabledMatchers}
+                style={{ "--rdp-accent-color": world.theme.accent, "--rdp-accent-background-color": world.theme.accentSoft } as React.CSSProperties}
+                className="mx-auto w-fit"
+              />
+            </div>
             {rangeError && <p className="text-red-400 text-sm mt-3">{rangeError}</p>}
             <button
               onClick={() => goToStep("huespedes")}
