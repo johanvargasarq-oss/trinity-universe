@@ -1,0 +1,32 @@
+{
+  "_nota": "DATOS DE EJEMPLO. El cliente todavía no ha confirmado el catálogo/precios oficiales de Trini Vapers — placeholder inspirado en categorías generales de una tienda de vapeadores, sin copiar ninguna marca. Reemplazar con el inventario real cuando esté disponible.",
+  "categorias": [
+    {
+      "id": "dispositivos",
+      "nombre": "Dispositivos",
+      "productos": [
+        { "id": "pod-descartable", "nombre": "Pod Descartable 5000 puffs", "descripcion": "Sabores surtidos", "precio": 65000, "imagen": "/media/vapers/hero.png" },
+        { "id": "pod-recargable", "nombre": "Pod Recargable", "descripcion": "Kit completo con cargador", "precio": 95000, "imagen": "/media/vapers/hero.png" },
+        { "id": "mod-avanzado", "nombre": "Mod Avanzado", "descripcion": "Control de voltaje ajustable", "precio": 180000, "imagen": "/media/vapers/hero.png" }
+      ]
+    },
+    {
+      "id": "liquidos",
+      "nombre": "Líquidos y Sabores",
+      "productos": [
+        { "id": "liquido-frutal", "nombre": "Líquido Frutal 30ml", "descripcion": "", "precio": 45000, "imagen": "/media/vapers/hero.png" },
+        { "id": "liquido-mentolado", "nombre": "Líquido Mentolado 30ml", "descripcion": "", "precio": 45000, "imagen": "/media/vapers/hero.png" },
+        { "id": "liquido-dulce", "nombre": "Líquido Dulce/Postre 30ml", "descripcion": "", "precio": 48000, "imagen": "/media/vapers/hero.png" }
+      ]
+    },
+    {
+      "id": "accesorios",
+      "nombre": "Accesorios",
+      "productos": [
+        { "id": "resistencia", "nombre": "Resistencia de repuesto", "descripcion": "", "precio": 18000, "imagen": "/media/vapers/hero.png" },
+        { "id": "cargador-usb", "nombre": "Cargador USB-C", "descripcion": "", "precio": 15000, "imagen": "/media/vapers/hero.png" },
+        { "id": "funda-protectora", "nombre": "Funda protectora", "descripcion": "", "precio": 12000, "imagen": "/media/vapers/hero.png" }
+      ]
+    }
+  ]
+}

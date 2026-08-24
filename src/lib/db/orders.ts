@@ -2,7 +2,7 @@ import { hashGetAll, hashSet, hashDelete } from "./redis-client";
 
 const HASH_KEY = "trinity:orders";
 
-export type OrderWorldId = "fries" | "arepas" | "slush";
+export type OrderWorldId = "fries" | "arepas" | "slush" | "licores" | "vapers";
 export type OrderEstado = "pendiente" | "preparando" | "listo" | "entregado" | "cancelado";
 
 export interface OrderLineSnapshot {

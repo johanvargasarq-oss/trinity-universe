@@ -1,0 +1,47 @@
+{
+  "_nota": "DATOS DE EJEMPLO. El cliente todavía no ha confirmado el catálogo/precios oficiales de Trini Licores — placeholder inspirado en categorías generales de una licorería, sin copiar ninguna marca. Reemplazar con el inventario real cuando esté disponible.",
+  "categorias": [
+    {
+      "id": "whisky",
+      "nombre": "Whisky",
+      "productos": [
+        { "id": "whisky-etiqueta-negra", "nombre": "Whisky Etiqueta Negra 750ml", "descripcion": "", "precio": 145000, "imagen": "/media/licores/hero.png" },
+        { "id": "whisky-etiqueta-roja", "nombre": "Whisky Etiqueta Roja 750ml", "descripcion": "", "precio": 95000, "imagen": "/media/licores/hero.png" },
+        { "id": "whisky-doble-negra", "nombre": "Whisky Doble Negra 750ml", "descripcion": "", "precio": 165000, "imagen": "/media/licores/hero.png" }
+      ]
+    },
+    {
+      "id": "ron-aguardiente",
+      "nombre": "Ron y Aguardiente",
+      "productos": [
+        { "id": "ron-anejo-750", "nombre": "Ron Añejo 750ml", "descripcion": "", "precio": 68000, "imagen": "/media/licores/hero.png" },
+        { "id": "aguardiente-750", "nombre": "Aguardiente 750ml", "descripcion": "", "precio": 52000, "imagen": "/media/licores/hero.png" },
+        { "id": "aguardiente-media", "nombre": "Aguardiente Media Botella 375ml", "descripcion": "", "precio": 30000, "imagen": "/media/licores/hero.png" }
+      ]
+    },
+    {
+      "id": "vodka-tequila",
+      "nombre": "Vodka y Tequila",
+      "productos": [
+        { "id": "vodka-750", "nombre": "Vodka Premium 750ml", "descripcion": "", "precio": 89000, "imagen": "/media/licores/hero.png" },
+        { "id": "tequila-750", "nombre": "Tequila Blanco 750ml", "descripcion": "", "precio": 110000, "imagen": "/media/licores/hero.png" }
+      ]
+    },
+    {
+      "id": "cervezas",
+      "nombre": "Cervezas",
+      "productos": [
+        { "id": "cerveza-six", "nombre": "Six Pack Cerveza Nacional", "descripcion": "", "precio": 24000, "imagen": "/media/licores/hero.png" },
+        { "id": "cerveza-importada-six", "nombre": "Six Pack Cerveza Importada", "descripcion": "", "precio": 42000, "imagen": "/media/licores/hero.png" }
+      ]
+    },
+    {
+      "id": "combos",
+      "nombre": "Combos para Compartir",
+      "productos": [
+        { "id": "combo-whisky", "nombre": "Combo Whisky + 2 Gaseosas + Hielo", "descripcion": "", "precio": 165000, "imagen": "/media/licores/hero.png" },
+        { "id": "combo-aguardiente", "nombre": "Combo Aguardiente + Limonada + Hielo", "descripcion": "", "precio": 68000, "imagen": "/media/licores/hero.png" }
+      ]
+    }
+  ]
+}

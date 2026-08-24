@@ -1,4 +1,4 @@
-export type WorldId = "barberia" | "fries" | "slush" | "arepas" | "rent";
+export type WorldId = "barberia" | "fries" | "slush" | "arepas" | "rent" | "licores" | "vapers";
 
 export interface WorldTheme {
   bg: string;
@@ -224,6 +224,64 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Reservar" },
     hotspot: { x: 26, y: 65, w: 48, h: 35 },
+    status: "live",
+  },
+  licores: {
+    id: "licores",
+    slug: "/licores",
+    name: "Trini Licores",
+    shortName: "Licores",
+    emoji: "🥃",
+    tagline: "Para brindar como Trinity",
+    description:
+      "Licores premium con la actitud del universo Trinity. Pide y te lo llevamos, con el mismo estándar de siempre.",
+    theme: {
+      bg: "#0f0a03",
+      bgAlt: "#1a1206",
+      accent: "#d4a017",
+      accentSoft: "rgba(212, 160, 23, 0.18)",
+      text: "#f8f0dc",
+      textMuted: "#bfa876",
+      border: "rgba(212, 160, 23, 0.2)",
+    },
+    media: {
+      heroImage: "/media/licores/hero.png",
+      cardImage: "/media/licores/card.png",
+    },
+    contact: {
+      instagram: { handle: "@trini_bga", url: "https://instagram.com/trini_bga" },
+    },
+    cta: { label: "Pedir ahora" },
+    hotspot: { x: 28, y: 42, w: 15, h: 19 },
+    status: "live",
+  },
+  vapers: {
+    id: "vapers",
+    slug: "/vapers",
+    name: "Trini Vapers",
+    shortName: "Vapers",
+    emoji: "💨",
+    tagline: "Tu vape, tu estilo",
+    description:
+      "Dispositivos y líquidos con la actitud Trinity. Pide y te lo llevamos, con el mismo estándar de siempre.",
+    theme: {
+      bg: "#0a0510",
+      bgAlt: "#150a1f",
+      accent: "#c084fc",
+      accentSoft: "rgba(192, 132, 252, 0.18)",
+      text: "#f3e8ff",
+      textMuted: "#b39ddb",
+      border: "rgba(192, 132, 252, 0.2)",
+    },
+    media: {
+      heroImage: "/media/vapers/hero.png",
+      cardImage: "/media/vapers/card.png",
+    },
+    contact: {
+      instagram: { handle: "@trini_bga", url: "https://instagram.com/trini_bga" },
+    },
+    cta: { label: "Pedir ahora" },
+    hotspot: { x: 9, y: 63, w: 16, h: 20 },
     status: "live",
   },
 };

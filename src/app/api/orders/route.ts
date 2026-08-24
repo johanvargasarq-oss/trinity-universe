@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveOrder, type Order, type OrderWorldId } from "@/lib/db/orders";
 
-const VALID_WORLDS: OrderWorldId[] = ["fries", "arepas", "slush"];
+const VALID_WORLDS: OrderWorldId[] = ["fries", "arepas", "slush", "licores", "vapers"];
 
 export async function POST(req: NextRequest) {
   try {

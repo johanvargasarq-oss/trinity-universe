@@ -16,8 +16,8 @@ interface DashboardData {
   reservasHoy: number;
   clientesNuevosHoy: number;
   topProductos: { nombre: string; cantidad: number }[];
-  ingresosPorNegocio: { barberia: number; fries: number; arepas: number; slush: number };
-  pedidosPorNegocioHoy: { fries: number; arepas: number; slush: number };
+  ingresosPorNegocio: { barberia: number; fries: number; arepas: number; slush: number; licores: number; vapers: number };
+  pedidosPorNegocioHoy: { fries: number; arepas: number; slush: number; licores: number; vapers: number };
   rentReservasPendientes: number;
   rentReservasHoy: number;
   rentIngresos: number;
@@ -66,7 +66,7 @@ function DashboardBody() {
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
                 <h2 className="text-white font-medium mb-4">Ingresos por negocio</h2>
                 <div className="space-y-3">
-                  {(["barberia", "fries", "arepas", "slush"] as const).map((id) => (
+                  {(["barberia", "fries", "arepas", "slush", "licores", "vapers"] as const).map((id) => (
                     <div key={id} className="flex items-center justify-between text-sm">
                       <span className="text-white/60">
                         {worlds[id].emoji} {worlds[id].name}
@@ -96,8 +96,8 @@ function DashboardBody() {
 
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 mb-10">
               <h2 className="text-white font-medium mb-4">Pedidos de hoy por negocio</h2>
-              <div className="grid grid-cols-3 gap-4">
-                {(["fries", "arepas", "slush"] as const).map((id) => (
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
+                {(["fries", "arepas", "slush", "licores", "vapers"] as const).map((id) => (
                   <div key={id} className="text-center">
                     <div className="text-2xl font-display text-white">{data.pedidosPorNegocioHoy[id]}</div>
                     <div className="text-white/50 text-xs mt-1">

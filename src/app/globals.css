@@ -83,6 +83,26 @@
   --world-border: rgba(45, 212, 191, 0.2);
 }
 
+[data-world="licores"] {
+  --world-bg: #0f0a03;
+  --world-bg-alt: #1a1206;
+  --world-accent: #d4a017;
+  --world-accent-soft: rgba(212, 160, 23, 0.18);
+  --world-text: #f8f0dc;
+  --world-text-muted: #bfa876;
+  --world-border: rgba(212, 160, 23, 0.2);
+}
+
+[data-world="vapers"] {
+  --world-bg: #0a0510;
+  --world-bg-alt: #150a1f;
+  --world-accent: #c084fc;
+  --world-accent-soft: rgba(192, 132, 252, 0.18);
+  --world-text: #f3e8ff;
+  --world-text-muted: #b39ddb;
+  --world-border: rgba(192, 132, 252, 0.2);
+}
+
 html {
   scroll-behavior: auto;
 }
