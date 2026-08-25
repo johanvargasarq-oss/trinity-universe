@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import type { WorldConfig } from "@/lib/brands";
 
@@ -8,6 +9,7 @@ export interface BookingStaff {
   id: string;
   nombre: string;
   rol?: string;
+  foto?: string;
 }
 
 export interface BookingService {
@@ -146,6 +148,14 @@ export default function BookingForm({
                 background: selectedStaff === s.id ? world.theme.accentSoft : world.theme.bgAlt,
               }}
             >
+              {s.foto && (
+                <div
+                  className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border"
+                  style={{ borderColor: selectedStaff === s.id ? world.theme.accent : world.theme.border }}
+                >
+                  <Image src={s.foto} alt={s.nombre} fill className="object-cover" sizes="48px" />
+                </div>
+              )}
               <div className="text-world-text text-sm font-medium">{s.nombre}</div>
               {s.rol && <div className="text-world-text-muted text-xs mt-0.5">{s.rol}</div>}
             </button>
