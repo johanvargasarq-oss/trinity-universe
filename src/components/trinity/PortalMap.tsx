@@ -2,11 +2,20 @@
 
 import { motion } from "motion/react";
 import { worldList } from "@/lib/brands";
+import { useIsMobileViewport } from "@/hooks/useIsMobileViewport";
 import IslandHotspot from "./IslandHotspot";
 import PortalScene from "./portal/PortalScene";
+import PortalMobileList from "./portal/PortalMobileList";
 import SoundToggle from "./portal/SoundToggle";
 
 export default function PortalMap() {
+  const isMobile = useIsMobileViewport();
+
+  // Unknown until the client measures the viewport — hold off rendering
+  // either layout so we never flash the wrong one.
+  if (isMobile === null) return <section className="h-screen w-screen bg-black" />;
+  if (isMobile) return <PortalMobileList />;
+
   return (
     <section className="relative h-screen w-screen overflow-hidden bg-black">
       <PortalScene>

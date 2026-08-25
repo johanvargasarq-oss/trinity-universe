@@ -142,22 +142,21 @@ export default function BookingForm({
               key={s.id}
               type="button"
               onClick={() => setSelectedStaff(s.id)}
-              className="rounded-xl border p-3 text-left transition-colors"
+              className="rounded-xl border overflow-hidden text-left transition-colors"
               style={{
                 borderColor: selectedStaff === s.id ? world.theme.accent : world.theme.border,
                 background: selectedStaff === s.id ? world.theme.accentSoft : world.theme.bgAlt,
               }}
             >
               {s.foto && (
-                <div
-                  className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border"
-                  style={{ borderColor: selectedStaff === s.id ? world.theme.accent : world.theme.border }}
-                >
-                  <Image src={s.foto} alt={s.nombre} fill className="object-cover" sizes="48px" />
+                <div className="relative w-full aspect-[3/4]">
+                  <Image src={s.foto} alt={s.nombre} fill className="object-cover" sizes="(max-width: 640px) 50vw, 25vw" />
                 </div>
               )}
-              <div className="text-world-text text-sm font-medium">{s.nombre}</div>
-              {s.rol && <div className="text-world-text-muted text-xs mt-0.5">{s.rol}</div>}
+              <div className="p-3">
+                <div className="text-world-text text-sm font-medium">{s.nombre}</div>
+                {s.rol && <div className="text-world-text-muted text-xs mt-0.5">{s.rol}</div>}
+              </div>
             </button>
           ))}
         </div>
