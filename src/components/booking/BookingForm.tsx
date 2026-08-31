@@ -173,7 +173,7 @@ export default function BookingForm({
           >
             <option value="">— Selecciona un servicio —</option>
             {services.map((s) => (
-              <option key={s.id} value={s.id} className="text-black">
+              <option key={s.id} value={s.id} className="text-white bg-black">
                 {s.nombre} — {currency.format(s.precio)} · {s.duracionMin} min
               </option>
             ))}
@@ -190,7 +190,7 @@ export default function BookingForm({
           >
             <option value="">— Selecciona una sede —</option>
             {sedes.map((s) => (
-              <option key={s} value={s} className="text-black">
+              <option key={s} value={s} className="text-white bg-black">
                 {s}
               </option>
             ))}
@@ -219,7 +219,7 @@ export default function BookingForm({
           >
             <option value="">— Selecciona una hora —</option>
             {horasLibres.map((h) => (
-              <option key={h} value={h} className="text-black">
+              <option key={h} value={h} className="text-white bg-black">
                 {h}
               </option>
             ))}
