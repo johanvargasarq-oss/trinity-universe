@@ -7,7 +7,8 @@
     { "id": "cualquiera", "nombre": "Cualquier barbero disponible", "rol": "" },
     { "id": "barbero-1", "nombre": "Barbero 1", "rol": "Fades · Diseño", "foto": "/media/barberia/barbero-1.jpg" },
     { "id": "barbero-2", "nombre": "Barbero 2", "rol": "Cortes clásicos", "foto": "/media/barberia/barbero-2.jpg" },
-    { "id": "barbero-3", "nombre": "Barbero 3", "rol": "Barba · Afeitado", "foto": "/media/barberia/barbero-3.jpg" }
+    { "id": "barbero-3", "nombre": "Barbero 3", "rol": "Barba · Afeitado", "foto": "/media/barberia/barbero-3.jpg" },
+    { "id": "barbero-4", "nombre": "Barbero 4", "rol": "", "foto": "/media/barberia/barbero-4.jpg" }
   ],
   "servicios": [
     {

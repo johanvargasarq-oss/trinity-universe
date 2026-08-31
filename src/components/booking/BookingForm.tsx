@@ -154,7 +154,7 @@ export default function BookingForm({
             </button>
           ))}
 
-        <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-4">
           {staff
             .filter((s) => s.foto)
             .map((s) => (
@@ -174,7 +174,7 @@ export default function BookingForm({
                     alt={s.nombre}
                     fill
                     className="object-contain"
-                    sizes="(max-width: 640px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 50vw, 25vw"
                   />
                 </div>
                 <div className="p-3">
