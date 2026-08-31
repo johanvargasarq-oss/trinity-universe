@@ -12,6 +12,7 @@ import WorldGallery from "@/components/world/WorldGallery";
 import WorldMap from "@/components/world/WorldMap";
 import WorldContactBlock from "@/components/world/WorldContactBlock";
 import BookingForm from "@/components/booking/BookingForm";
+import BarberExperience from "@/components/barberia/BarberExperience";
 
 const world = worlds.barberia;
 
@@ -52,6 +53,7 @@ export default function BarberiaPage() {
       />
       <WorldServices world={world} services={servicios} />
       <WorldGallery world={world} items={galeria} />
+      <BarberExperience world={world} />
 
       <section className="relative py-24 px-5 sm:px-10 bg-world-bg-alt">
         <div className="max-w-3xl mx-auto text-center mb-10">
