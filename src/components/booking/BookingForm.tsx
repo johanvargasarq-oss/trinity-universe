@@ -136,29 +136,53 @@ export default function BookingForm({
         <span className="text-sm text-world-text-muted uppercase tracking-wide">
           Elige tu {staffLabel}
         </span>
-        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {staff.map((s) => (
+        {staff
+          .filter((s) => !s.foto)
+          .map((s) => (
             <button
               key={s.id}
               type="button"
               onClick={() => setSelectedStaff(s.id)}
-              className="rounded-xl border overflow-hidden text-left transition-colors"
+              className="mt-3 w-full rounded-xl border px-4 py-3 text-left transition-colors"
               style={{
                 borderColor: selectedStaff === s.id ? world.theme.accent : world.theme.border,
                 background: selectedStaff === s.id ? world.theme.accentSoft : world.theme.bgAlt,
               }}
             >
-              {s.foto && (
-                <div className="relative w-full aspect-[3/4]">
-                  <Image src={s.foto} alt={s.nombre} fill className="object-cover" sizes="(max-width: 640px) 50vw, 25vw" />
-                </div>
-              )}
-              <div className="p-3">
-                <div className="text-world-text text-sm font-medium">{s.nombre}</div>
-                {s.rol && <div className="text-world-text-muted text-xs mt-0.5">{s.rol}</div>}
-              </div>
+              <div className="text-world-text text-sm font-medium">{s.nombre}</div>
+              {s.rol && <div className="text-world-text-muted text-xs mt-0.5">{s.rol}</div>}
             </button>
           ))}
+
+        <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {staff
+            .filter((s) => s.foto)
+            .map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => setSelectedStaff(s.id)}
+                className="rounded-xl border overflow-hidden text-left transition-colors"
+                style={{
+                  borderColor: selectedStaff === s.id ? world.theme.accent : world.theme.border,
+                  background: selectedStaff === s.id ? world.theme.accentSoft : world.theme.bgAlt,
+                }}
+              >
+                <div className="relative w-full aspect-[3/4]" style={{ background: world.theme.bg }}>
+                  <Image
+                    src={s.foto!}
+                    alt={s.nombre}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="p-3">
+                  <div className="text-world-text text-sm font-medium">{s.nombre}</div>
+                  {s.rol && <div className="text-world-text-muted text-xs mt-0.5">{s.rol}</div>}
+                </div>
+              </button>
+            ))}
         </div>
       </div>
 
