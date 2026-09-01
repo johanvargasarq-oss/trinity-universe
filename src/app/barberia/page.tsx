@@ -1,7 +1,7 @@
 "use client";
 
 import { worlds } from "@/lib/brands";
-import { buildLocalBusinessJsonLd } from "@/lib/metadata";
+import { buildLocalBusinessJsonLd, buildFaqJsonLd } from "@/lib/metadata";
 import { useRevealWorld } from "@/hooks/useRevealWorld";
 import barberiaData from "@/data/barberia.json";
 import WorldNav from "@/components/world/WorldNav";
@@ -9,6 +9,7 @@ import WorldHero from "@/components/world/WorldHero";
 import WorldStory from "@/components/world/WorldStory";
 import WorldServices from "@/components/world/WorldServices";
 import WorldGallery from "@/components/world/WorldGallery";
+import WorldFAQ from "@/components/world/WorldFAQ";
 import WorldMap from "@/components/world/WorldMap";
 import WorldContactBlock from "@/components/world/WorldContactBlock";
 import BookingForm from "@/components/booking/BookingForm";
@@ -39,9 +40,72 @@ const galeria = [
   },
 ];
 
+const faqs = [
+  {
+    question: "¿Cómo puedo reservar una cita en Trinity Barbería?",
+    answer:
+      "Puedes reservar tu cita directamente desde la página de Trinity Barbería. Selecciona el servicio que deseas, elige el día y horario disponible y completa los datos solicitados para confirmar tu reserva.",
+  },
+  {
+    question: "¿Qué servicios ofrece Trinity Barbería?",
+    answer:
+      "Trinity Barbería ofrece diferentes servicios de barbería y cuidado masculino. En la sección de servicios puedes consultar las opciones disponibles, sus precios y la duración aproximada de cada servicio.",
+  },
+  {
+    question: "¿Cuánto cuesta un corte de cabello en Trinity Barbería?",
+    answer:
+      "El precio depende del servicio que elijas. Consulta nuestra lista de servicios y precios actualizada directamente en la sección de Trinity Barbería.",
+  },
+  {
+    question: "¿Necesito reservar una cita para ir a Trinity Barbería?",
+    answer:
+      "Recomendamos reservar una cita previamente para asegurar disponibilidad en el horario que prefieras. De esta manera puedes evitar esperas y garantizar tu espacio con el barbero.",
+  },
+  {
+    question: "¿Puedo elegir el barbero con el que quiero atenderme?",
+    answer:
+      "Sí, si el sistema muestra diferentes barberos disponibles, puedes seleccionar el profesional de tu preferencia al momento de realizar la reserva.",
+  },
+  {
+    question: "¿Cuánto dura aproximadamente una cita?",
+    answer:
+      "La duración depende del servicio seleccionado. Al momento de reservar podrás consultar la información correspondiente al servicio que deseas.",
+  },
+  {
+    question: "¿Puedo cancelar o cambiar mi cita?",
+    answer:
+      "Sí. Si necesitas cancelar o modificar tu reserva, hazlo con anticipación utilizando los canales de contacto disponibles de Trinity Barbería.",
+  },
+  {
+    question: "¿Qué pasa si llego tarde a mi cita?",
+    answer:
+      "Te recomendamos llegar unos minutos antes de tu horario reservado. Si llegas tarde, la atención puede verse afectada dependiendo de la disponibilidad del barbero y de las citas posteriores.",
+  },
+  {
+    question: "¿Puedo reservar una cita para otra persona?",
+    answer:
+      "Sí. Puedes realizar una reserva para otra persona siempre que ingreses correctamente los datos solicitados durante el proceso de reserva.",
+  },
+  {
+    question: "¿Dónde está ubicada Trinity Barbería?",
+    answer:
+      "Trinity Barbería está ubicada en Bucaramanga. Consulta la sección de ubicación de la página para conocer nuestra dirección exacta y cómo llegar.",
+  },
+  {
+    question: "¿Trinity Barbería atiende sin cita previa?",
+    answer:
+      "La atención sin cita está sujeta a la disponibilidad del momento. Para garantizar tu espacio y evitar esperas, recomendamos realizar una reserva previamente.",
+  },
+  {
+    question: "¿Cómo puedo contactar a Trinity Barbería?",
+    answer: "Puedes comunicarte con Trinity Barbería utilizando los canales de contacto disponibles en nuestra página web.",
+  },
+];
+
 export default function BarberiaPage() {
   useRevealWorld();
   const jsonLd = buildLocalBusinessJsonLd(world);
+  const faqJsonLd = buildFaqJsonLd(faqs);
 
   return (
     <>
@@ -49,6 +113,11 @@ export default function BarberiaPage() {
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <WorldNav world={world} />
       <WorldHero world={world} />
@@ -70,6 +139,13 @@ export default function BarberiaPage() {
       />
       <WorldGallery world={world} items={galeria} />
       <BarberExperience world={world} />
+
+      <WorldFAQ
+        world={world}
+        items={faqs}
+        title="Preguntas frecuentes"
+        subtitle="Todo lo que necesitas saber antes de tu cita en Trinity Barbería."
+      />
 
       <section id="reservas" className="relative py-24 px-5 sm:px-10 bg-world-bg-alt scroll-mt-20">
         <div className="max-w-3xl mx-auto text-center mb-10">
