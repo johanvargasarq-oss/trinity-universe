@@ -61,11 +61,17 @@ export default function BarberiaPage() {
         ]}
         image="/media/barberia/gallery-3.png"
       />
-      <WorldServices world={world} services={servicios} />
+      <WorldServices
+        world={world}
+        services={servicios}
+        title="Todo lo que hacemos mejor"
+        subtitle="Elige el servicio y reserva directamente por WhatsApp."
+        video="/media/barberia/gallery-video-2.mp4"
+      />
       <WorldGallery world={world} items={galeria} />
       <BarberExperience world={world} />
 
-      <section className="relative py-24 px-5 sm:px-10 bg-world-bg-alt">
+      <section id="reservas" className="relative py-24 px-5 sm:px-10 bg-world-bg-alt scroll-mt-20">
         <div className="max-w-3xl mx-auto text-center mb-10">
           <h2 className="font-display text-2xl sm:text-3xl text-world-text mb-3">Agenda tu cita</h2>
           <p className="text-world-text-muted">
