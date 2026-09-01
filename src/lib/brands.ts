@@ -13,6 +13,8 @@ export interface WorldTheme {
 export interface WorldMedia {
   heroVideo?: string;
   heroImage: string;
+  /** Optional override for the hero image on small viewports. */
+  heroImageMobile?: string;
   cardImage: string;
 }
 
@@ -68,6 +70,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     media: {
       heroImage: "/media/barberia/hero-team.png",
+      heroImageMobile: "/media/barberia/hero-mobile.png",
       cardImage: "/media/barberia/hero-team.png",
     },
     contact: {

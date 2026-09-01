@@ -17,6 +17,21 @@ export default function WorldHero({ world }: { world: WorldConfig }) {
             loop
             playsInline
           />
+        ) : world.media.heroImageMobile ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={world.media.heroImageMobile}
+              alt={world.name}
+              className="h-full w-full object-cover sm:hidden"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={world.media.heroImage}
+              alt={world.name}
+              className="hidden h-full w-full object-cover sm:block"
+            />
+          </>
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={world.media.heroImage} alt={world.name} className="h-full w-full object-cover" />
