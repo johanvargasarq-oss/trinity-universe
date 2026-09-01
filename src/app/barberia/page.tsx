@@ -23,9 +23,6 @@ const servicios = barberiaData.servicios.map((s) => ({
 }));
 
 const galeria = [
-  { src: "/media/barberia/gallery-1.png", alt: "Corte fade en Trinity Barbería" },
-  { src: "/media/barberia/gallery-2.png", alt: "Productos de grooming Trinity" },
-  { src: "/media/barberia/hero.png", alt: "Interior Trinity Barbería" },
   { src: "/media/barberia/gallery-3.jpg", alt: "Fachada Trinity Barbería" },
   { src: "/media/barberia/gallery-4.jpg", alt: "Corte a degradado en Trinity Barbería" },
   { src: "/media/barberia/gallery-5.jpg", alt: "Mullet con diseño en Trinity Barbería" },
