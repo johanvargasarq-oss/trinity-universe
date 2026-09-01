@@ -27,7 +27,7 @@ const galeria = [
   { src: "/media/barberia/gallery-1.png", alt: "Corte fade en Trinity Barbería" },
   { src: "/media/barberia/gallery-2.png", alt: "Productos de grooming Trinity" },
   { src: "/media/barberia/hero.png", alt: "Interior Trinity Barbería" },
-  { src: "/media/barberia/gallery-3.png", alt: "Fachada Trinity Barbería" },
+  { src: "/media/barberia/gallery-3.jpg", alt: "Fachada Trinity Barbería" },
   {
     src: "/media/barberia/gallery-video-2-poster.jpg",
     video: "/media/barberia/gallery-video-2.mp4",
@@ -128,7 +128,7 @@ export default function BarberiaPage() {
           "Trinity Barbería nació para ofrecer una experiencia distinta en Bucaramanga: técnica precisa, ambiente premium y atención que se nota desde que cruzas la puerta.",
           "Cada sede mantiene el mismo estándar: buena luz, buena música y barberos que se toman su tiempo para que el resultado sea exactamente el que buscas.",
         ]}
-        image="/media/barberia/gallery-3.png"
+        image="/media/barberia/gallery-3.jpg"
       />
       <WorldServices
         world={world}

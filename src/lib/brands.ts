@@ -67,8 +67,8 @@ export const worlds: Record<WorldId, WorldConfig> = {
       border: "rgba(245, 245, 245, 0.14)",
     },
     media: {
-      heroImage: "/media/barberia/hero-team.jpg",
-      cardImage: "/media/barberia/hero-team.jpg",
+      heroImage: "/media/barberia/hero-team.png",
+      cardImage: "/media/barberia/hero-team.png",
     },
     contact: {
       addresses: [
