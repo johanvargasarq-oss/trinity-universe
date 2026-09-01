@@ -4,7 +4,6 @@ import { worlds } from "@/lib/brands";
 import { buildLocalBusinessJsonLd, buildFaqJsonLd } from "@/lib/metadata";
 import { useRevealWorld } from "@/hooks/useRevealWorld";
 import barberiaData from "@/data/barberia.json";
-import WorldNav from "@/components/world/WorldNav";
 import WorldHero from "@/components/world/WorldHero";
 import WorldStory from "@/components/world/WorldStory";
 import WorldServices from "@/components/world/WorldServices";
@@ -119,7 +118,6 @@ export default function BarberiaPage() {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <WorldNav world={world} />
       <WorldHero world={world} />
       <WorldStory
         world={world}
