@@ -27,6 +27,16 @@ const galeria = [
   { src: "/media/barberia/gallery-2.png", alt: "Productos de grooming Trinity" },
   { src: "/media/barberia/hero.png", alt: "Interior Trinity Barbería" },
   { src: "/media/barberia/gallery-3.png", alt: "Fachada Trinity Barbería" },
+  {
+    src: "/media/barberia/gallery-video-2-poster.jpg",
+    video: "/media/barberia/gallery-video-2.mp4",
+    alt: "Antes y después de un corte en Trinity Barbería",
+  },
+  {
+    src: "/media/barberia/gallery-video-1-poster.jpg",
+    video: "/media/barberia/gallery-video-1.mp4",
+    alt: "Ambiente en Trinity Barbería",
+  },
 ];
 
 export default function BarberiaPage() {

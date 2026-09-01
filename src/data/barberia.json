@@ -2,7 +2,7 @@
   "_temporal": true,
   "_nota": "Precios y barberos de ejemplo — reemplazar con los datos reales de Trinity Barbería. Los nombres de servicios sí fueron indicados por el cliente; precios/duraciones/barberos son provisionales.",
   "whatsapp": "573246027086",
-  "sedes": ["Cabecera", "Soto Mayor"],
+  "sedes": ["Cabecera"],
   "barberos": [
     { "id": "cualquiera", "nombre": "Cualquier barbero disponible", "rol": "" },
     { "id": "barbero-1", "nombre": "Barbero 1", "rol": "Fades · Diseño", "foto": "/media/barberia/barbero-1.jpg" },
