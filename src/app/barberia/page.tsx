@@ -140,13 +140,6 @@ export default function BarberiaPage() {
       <WorldGallery world={world} items={galeria} />
       <BarberExperience world={world} />
 
-      <WorldFAQ
-        world={world}
-        items={faqs}
-        title="Preguntas frecuentes"
-        subtitle="Todo lo que necesitas saber antes de tu cita en Trinity Barbería."
-      />
-
       <section id="reservas" className="relative py-24 px-5 sm:px-10 bg-world-bg-alt scroll-mt-20">
         <div className="max-w-3xl mx-auto text-center mb-10">
           <h2 className="font-display text-2xl sm:text-3xl text-world-text mb-3">Agenda tu cita</h2>
@@ -167,6 +160,13 @@ export default function BarberiaPage() {
 
       <WorldMap world={world} />
       <WorldContactBlock world={world} />
+
+      <WorldFAQ
+        world={world}
+        items={faqs}
+        title="Preguntas frecuentes"
+        subtitle="Todo lo que necesitas saber antes de tu cita en Trinity Barbería."
+      />
     </>
   );
 }
