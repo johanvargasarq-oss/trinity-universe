@@ -140,7 +140,7 @@ export default function BarberiaPage() {
         services={servicios}
         title="Todo lo que hacemos mejor"
         subtitle="Elige el servicio y reserva directamente por WhatsApp."
-        video="/media/barberia/gallery-video-2.mp4"
+        video="/media/barberia/services-video.mp4"
       />
       <WorldGallery world={world} items={galeria} />
       <BarberExperience world={world} />
