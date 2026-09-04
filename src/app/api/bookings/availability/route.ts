@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const ocupadas = all
       .filter(
         (b) =>
-          b.estado === "confirmada" &&
+          b.estado !== "cancelada" &&
           b.worldId === worldId &&
           b.sede === sede &&
           b.fecha === fecha &&
