@@ -43,7 +43,9 @@ export default function BookingForm({
 }: BookingFormProps) {
   const [selectedStaff, setSelectedStaff] = useState<string>("");
   const [servicio, setServicio] = useState("");
-  const [sede, setSede] = useState("");
+  // Only one sede exists today, so it's picked automatically instead of
+  // asking the client to choose from a list of one.
+  const [sede] = useState(sedes[0] ?? "");
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
   const [nombre, setNombre] = useState("");
@@ -211,23 +213,6 @@ export default function BookingForm({
               <option key={s.id} value={s.id} className="text-white bg-black">
                 {s.nombre} — {currency.format(s.precio)}
                 {s.duracionMin ? ` · ${s.duracionMin} min` : ""}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="flex flex-col gap-1.5 text-sm">
-          <span className="text-world-text-muted">Sede</span>
-          <select
-            value={sede}
-            onChange={(e) => setSede(e.target.value)}
-            className="rounded-lg border bg-transparent px-3 py-2.5 text-world-text"
-            style={{ borderColor: world.theme.border, background: world.theme.bgAlt }}
-          >
-            <option value="">— Selecciona una sede —</option>
-            {sedes.map((s) => (
-              <option key={s} value={s} className="text-white bg-black">
-                {s}
               </option>
             ))}
           </select>
