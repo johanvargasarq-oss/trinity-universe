@@ -19,7 +19,7 @@ const world = worlds.barberia;
 const servicios = barberiaData.servicios.map((s) => ({
   title: s.nombre,
   description: s.descripcion,
-  meta: `${new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(s.precio)} · ${s.duracionMin} min`,
+  meta: new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(s.precio),
 }));
 
 const galeria = [

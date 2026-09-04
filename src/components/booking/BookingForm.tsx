@@ -16,7 +16,7 @@ export interface BookingService {
   id: string;
   nombre: string;
   precio: number;
-  duracionMin: number;
+  duracionMin?: number;
   descripcion: string;
 }
 
@@ -209,7 +209,8 @@ export default function BookingForm({
             <option value="">— Selecciona un servicio —</option>
             {services.map((s) => (
               <option key={s.id} value={s.id} className="text-white bg-black">
-                {s.nombre} — {currency.format(s.precio)} · {s.duracionMin} min
+                {s.nombre} — {currency.format(s.precio)}
+                {s.duracionMin ? ` · ${s.duracionMin} min` : ""}
               </option>
             ))}
           </select>
