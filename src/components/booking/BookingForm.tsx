@@ -53,18 +53,25 @@ export default function BookingForm({
   const [errorMsg, setErrorMsg] = useState("");
 
   const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  // Bookings are stored with the staff's display name (shown in the admin
+  // table and the WhatsApp message), so availability must be queried by
+  // that same name — not by the internal id — or occupied slots never match.
+  const staffNombre = useMemo(
+    () => staff.find((s) => s.id === selectedStaff)?.nombre ?? selectedStaff,
+    [staff, selectedStaff]
+  );
 
   useEffect(() => {
     if (!sede || !fecha || !selectedStaff) {
       setOcupadas([]);
       return;
     }
-    const params = new URLSearchParams({ worldId: world.id, sede, fecha, staff: selectedStaff });
+    const params = new URLSearchParams({ worldId: world.id, sede, fecha, staff: staffNombre });
     fetch(`/api/bookings/availability?${params.toString()}`)
       .then((r) => r.json())
       .then((data) => setOcupadas(data.ocupadas || []))
       .catch(() => setOcupadas([]));
-  }, [sede, fecha, selectedStaff, world.id]);
+  }, [sede, fecha, selectedStaff, staffNombre, world.id]);
 
   const horasLibres = horasDisponibles.filter((h) => !ocupadas.includes(h));
 
@@ -81,22 +88,21 @@ export default function BookingForm({
 
     setStatus("checking");
     try {
-      const params = new URLSearchParams({ worldId: world.id, sede, fecha, staff: selectedStaff });
+      const params = new URLSearchParams({ worldId: world.id, sede, fecha, staff: staffNombre });
       const availRes = await fetch(`/api/bookings/availability?${params.toString()}`);
       const availData = await availRes.json();
       if (availData.ocupadas?.includes(hora)) {
-        setErrorMsg("Ese horario ya fue confirmado. Por favor elige otro.");
+        setErrorMsg("Ese horario ya fue reservado. Por favor elige otro.");
         setOcupadas(availData.ocupadas);
         setStatus("idle");
         return;
       }
 
       setStatus("sending");
-      const staffNombre = staff.find((s) => s.id === selectedStaff)?.nombre ?? selectedStaff;
       const servicioObj = services.find((s) => s.id === servicio);
       const servicioLabel = servicioObj ? `${servicioObj.nombre} — ${currency.format(servicioObj.precio)}` : servicio;
 
-      await fetch("/api/bookings", {
+      const saveRes = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -111,6 +117,11 @@ export default function BookingForm({
           hora,
         }),
       });
+      if (!saveRes.ok) {
+        setErrorMsg("No pudimos guardar tu reserva. Intenta de nuevo.");
+        setStatus("error");
+        return;
+      }
 
       const fechaFmt = new Date(fecha + "T12:00").toLocaleDateString("es-CO", {
         weekday: "long",
