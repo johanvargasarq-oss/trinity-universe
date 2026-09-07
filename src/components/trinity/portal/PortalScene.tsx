@@ -23,7 +23,7 @@ function PortalSceneBox({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="absolute left-0 right-0 top-1/2 -translate-y-1/2 aspect-[1600/2848] sm:inset-0 sm:translate-y-0 sm:aspect-auto"
+      className="absolute left-0 right-0 top-1/2 -translate-y-1/2 aspect-[900/1600] sm:inset-0 sm:translate-y-0 sm:aspect-auto"
       style={
         isReturning && !prefersReducedMotion
           ? { animation: "portal-camera-settle 0.9s cubic-bezier(0.16,1,0.3,1) both" }

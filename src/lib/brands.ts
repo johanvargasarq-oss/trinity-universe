@@ -91,7 +91,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Agenda tu cita" },
     hotspot: { x: 9, y: 0, w: 40, h: 34 },
-    mobileHotspot: { x: 5, y: 29, w: 28, h: 18 },
+    mobileHotspot: { x: 54, y: 10, w: 42, h: 17 },
     status: "live",
   },
   fries: {
@@ -130,7 +130,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Pedir ahora" },
     hotspot: { x: 56, y: 0, w: 44, h: 33 },
-    mobileHotspot: { x: 56, y: 10, w: 41, h: 18 },
+    mobileHotspot: { x: 54, y: 31, w: 42, h: 19 },
     status: "live",
   },
   slush: {
@@ -160,7 +160,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Síguenos" },
     hotspot: { x: 0, y: 33, w: 34, h: 44 },
-    mobileHotspot: { x: 5, y: 3, w: 46, h: 25 },
+    mobileHotspot: { x: 1, y: 1, w: 50, h: 25 },
     status: "live",
   },
   arepas: {
@@ -199,7 +199,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Pedir ahora" },
     hotspot: { x: 69, y: 37, w: 31, h: 37 },
-    mobileHotspot: { x: 58, y: 33, w: 40, h: 14 },
+    mobileHotspot: { x: 52, y: 54, w: 44, h: 19 },
     status: "live",
   },
   rent: {
@@ -231,7 +231,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Reservar" },
     hotspot: { x: 26, y: 65, w: 48, h: 35 },
-    mobileHotspot: { x: 21, y: 60, w: 65, h: 26 },
+    mobileHotspot: { x: 15, y: 70, w: 80, h: 28 },
     status: "live",
   },
   licores: {
@@ -261,7 +261,7 @@ export const worlds: Record<WorldId, WorldConfig> = {
     },
     cta: { label: "Pedir ahora" },
     hotspot: { x: 28, y: 42, w: 15, h: 19 },
-    mobileHotspot: { x: 3, y: 47, w: 32, h: 12 },
+    mobileHotspot: { x: 2, y: 41, w: 33, h: 20 },
     status: "live",
   },
   vapers: {
