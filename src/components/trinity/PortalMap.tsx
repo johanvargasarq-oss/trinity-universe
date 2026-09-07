@@ -5,22 +5,24 @@ import { worldList } from "@/lib/brands";
 import { useIsMobileViewport } from "@/hooks/useIsMobileViewport";
 import IslandHotspot from "./IslandHotspot";
 import PortalScene from "./portal/PortalScene";
-import PortalMobileList from "./portal/PortalMobileList";
 import SoundToggle from "./portal/SoundToggle";
 
 export default function PortalMap() {
   const isMobile = useIsMobileViewport();
 
   // Unknown until the client measures the viewport — hold off rendering
-  // either layout so we never flash the wrong one.
+  // so we never flash the wrong hotspot layout.
   if (isMobile === null) return <section className="h-screen w-screen bg-black" />;
-  if (isMobile) return <PortalMobileList />;
+
+  // The mobile map image doesn't include every island yet (e.g. Vapers) —
+  // only render hotspots for worlds that have a mobileHotspot defined.
+  const worldsToShow = isMobile ? worldList.filter((world) => world.mobileHotspot) : worldList;
 
   return (
     <section className="relative h-screen w-screen overflow-hidden bg-black">
       <PortalScene>
-        {worldList.map((world) => (
-          <IslandHotspot key={world.id} world={world} />
+        {worldsToShow.map((world) => (
+          <IslandHotspot key={world.id} world={world} hotspot={isMobile ? world.mobileHotspot : undefined} />
         ))}
       </PortalScene>
 

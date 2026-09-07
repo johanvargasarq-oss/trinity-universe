@@ -25,11 +25,19 @@ export default function DomPortalRenderer() {
     <>
       <div className="absolute inset-0" style={imageParallax}>
         <Image
+          src="/media/trinity/portal-map-mobile.png"
+          alt="Universo Trinity: Barbería, Fries, Slush, Arepas, Licores y Rent"
+          fill
+          priority
+          className="object-contain sm:hidden"
+          sizes="100vw"
+        />
+        <Image
           src="/media/trinity/portal-map.png"
           alt="Universo Trinity: Barbería, Fries, Slush, Arepas y Rent"
           fill
           priority
-          className="object-contain sm:object-cover"
+          className="hidden object-cover sm:block"
           sizes="100vw"
         />
       </div>

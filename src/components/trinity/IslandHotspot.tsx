@@ -9,8 +9,16 @@ import { FOCUS_TRAVEL_MS, FOCUS_ARRIVE_MS } from "./portal/focus-constants";
 
 const ARRIVAL_PARTICLES = Array.from({ length: 10 }, (_, i) => i);
 
-export default function IslandHotspot({ world }: { world: WorldConfig }) {
+export default function IslandHotspot({
+  world,
+  hotspot,
+}: {
+  world: WorldConfig;
+  /** Overrides world.hotspot — pass world.mobileHotspot for the mobile map layout. */
+  hotspot?: { x: number; y: number; w: number; h: number };
+}) {
   const ref = useRef<HTMLButtonElement>(null);
+  const position = hotspot ?? world.hotspot;
   const { activate, enterWorld, phase } = useTrinityTransition();
   const { focusedWorldId, setFocusedWorldId, prefersReducedMotion } = usePortalScene();
   const [arrived, setArrived] = useState(false);
@@ -78,10 +86,10 @@ export default function IslandHotspot({ world }: { world: WorldConfig }) {
       }
       className="group absolute flex flex-col items-center justify-end rounded-3xl border cursor-pointer border-white/0"
       style={{
-        left: `${world.hotspot.x}%`,
-        top: `${world.hotspot.y}%`,
-        width: `${world.hotspot.w}%`,
-        height: `${world.hotspot.h}%`,
+        left: `${position.x}%`,
+        top: `${position.y}%`,
+        width: `${position.w}%`,
+        height: `${position.h}%`,
       }}
       aria-label={world.name}
     >
