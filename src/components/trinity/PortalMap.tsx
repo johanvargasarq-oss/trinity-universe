@@ -14,13 +14,15 @@ export default function PortalMap() {
   // so we never flash the wrong hotspot layout.
   if (isMobile === null) return <section className="h-screen w-screen bg-black" />;
 
-  // The mobile map image doesn't include every island yet (e.g. Vapers) —
-  // only render hotspots for worlds that have a mobileHotspot defined.
-  const worldsToShow = isMobile ? worldList.filter((world) => world.mobileHotspot) : worldList;
+  // Neither portal-map image includes Trini Vapers yet — only render
+  // hotspots for worlds that actually appear in the currently shown art.
+  const worldsToShow = worldList.filter((world) =>
+    isMobile ? Boolean(world.mobileHotspot) : world.id !== "vapers"
+  );
 
   return (
     <section className="relative h-screen w-screen overflow-hidden bg-black">
-      <PortalScene>
+      <PortalScene isMobile={isMobile}>
         {worldsToShow.map((world) => (
           <IslandHotspot key={world.id} world={world} hotspot={isMobile ? world.mobileHotspot : undefined} />
         ))}

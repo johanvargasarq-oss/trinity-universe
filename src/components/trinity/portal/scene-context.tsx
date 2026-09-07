@@ -14,6 +14,8 @@ export interface PortalSceneState {
   pointer: PortalPointer;
   prefersReducedMotion: boolean;
   isTouch: boolean;
+  /** Which hotspot layout (world.hotspot vs world.mobileHotspot) is currently on screen. */
+  isMobile: boolean;
   /** Reduce particle counts / skip nonessential layers on weak hardware. */
   isLowPower: boolean;
   focusedWorldId: WorldId | null;
@@ -32,6 +34,7 @@ const PortalSceneContext = createContext<PortalSceneState>({
   pointer: { x: 0, y: 0 },
   prefersReducedMotion: false,
   isTouch: false,
+  isMobile: false,
   isLowPower: false,
   focusedWorldId: null,
   setFocusedWorldId: () => {},
@@ -40,7 +43,13 @@ const PortalSceneContext = createContext<PortalSceneState>({
 
 export const usePortalScene = () => useContext(PortalSceneContext);
 
-export function PortalSceneProvider({ children }: { children: React.ReactNode }) {
+export function PortalSceneProvider({
+  children,
+  isMobile,
+}: {
+  children: React.ReactNode;
+  isMobile: boolean;
+}) {
   const [pointer, setPointer] = useState<PortalPointer>({ x: 0, y: 0 });
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
@@ -107,7 +116,7 @@ export function PortalSceneProvider({ children }: { children: React.ReactNode })
 
   return (
     <PortalSceneContext.Provider
-      value={{ pointer, prefersReducedMotion, isTouch, isLowPower, focusedWorldId, setFocusedWorldId, isReturning }}
+      value={{ pointer, prefersReducedMotion, isTouch, isMobile, isLowPower, focusedWorldId, setFocusedWorldId, isReturning }}
     >
       {children}
     </PortalSceneContext.Provider>

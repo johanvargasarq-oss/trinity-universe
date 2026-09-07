@@ -10,9 +10,15 @@ import DomPortalRenderer from "./renderers/dom/DomPortalRenderer";
  * hotspots — kept outside the renderer so a future WebGL renderer can
  * still sit underneath plain DOM hit-targets.
  */
-export default function PortalScene({ children }: { children: React.ReactNode }) {
+export default function PortalScene({
+  children,
+  isMobile,
+}: {
+  children: React.ReactNode;
+  isMobile: boolean;
+}) {
   return (
-    <PortalSceneProvider>
+    <PortalSceneProvider isMobile={isMobile}>
       <PortalSceneBox>{children}</PortalSceneBox>
     </PortalSceneProvider>
   );

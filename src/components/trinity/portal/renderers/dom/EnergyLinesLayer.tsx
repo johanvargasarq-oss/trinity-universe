@@ -10,11 +10,15 @@ import { FOCUS_TRAVEL_MS } from "../../focus-constants";
 const CORE = { x: 50, y: 48 };
 
 export default function EnergyLinesLayer() {
-  const { prefersReducedMotion, focusedWorldId } = usePortalScene();
+  const { prefersReducedMotion, focusedWorldId, isMobile } = usePortalScene();
   const pulseRef = useRef<SVGCircleElement>(null);
   const trailRef = useRef<SVGCircleElement>(null);
 
-  const focusedWorld = worldList.find((w) => w.id === focusedWorldId) ?? null;
+  // Only worlds present in the currently displayed portal-map art get a line.
+  const visibleWorlds = worldList.filter((w) => (isMobile ? w.mobileHotspot : w.id !== "vapers"));
+  const getHotspot = (world: (typeof worldList)[number]) => (isMobile ? world.mobileHotspot! : world.hotspot);
+
+  const focusedWorld = visibleWorlds.find((w) => w.id === focusedWorldId) ?? null;
 
   useGSAP(
     () => {
@@ -22,8 +26,9 @@ export default function EnergyLinesLayer() {
       const trail = trailRef.current;
       if (!el || !trail || !focusedWorld || prefersReducedMotion) return;
 
-      const islandX = focusedWorld.hotspot.x + focusedWorld.hotspot.w / 2;
-      const islandY = focusedWorld.hotspot.y + focusedWorld.hotspot.h / 2;
+      const hs = getHotspot(focusedWorld);
+      const islandX = hs.x + hs.w / 2;
+      const islandY = hs.y + hs.h / 2;
       const travelS = FOCUS_TRAVEL_MS / 1000;
 
       gsap.set([el, trail], { attr: { cx: CORE.x, cy: CORE.y }, opacity: 0, fill: focusedWorld.theme.accent });
@@ -44,7 +49,7 @@ export default function EnergyLinesLayer() {
         .to([el, trail], { opacity: 0, duration: 0.35 }, `-=0.05`)
         .set(el, { attr: { r: 1.6 } });
     },
-    { dependencies: [focusedWorldId], revertOnUpdate: true }
+    { dependencies: [focusedWorldId, isMobile], revertOnUpdate: true }
   );
 
   return (
@@ -76,9 +81,10 @@ export default function EnergyLinesLayer() {
         </filter>
       </defs>
 
-      {worldList.map((world) => {
-        const islandX = world.hotspot.x + world.hotspot.w / 2;
-        const islandY = world.hotspot.y + world.hotspot.h / 2;
+      {visibleWorlds.map((world) => {
+        const hs = getHotspot(world);
+        const islandX = hs.x + hs.w / 2;
+        const islandY = hs.y + hs.h / 2;
         const isFocused = focusedWorldId === world.id;
         return (
           <line
