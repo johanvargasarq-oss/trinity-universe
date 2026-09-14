@@ -29,7 +29,8 @@ const islands = worldList.filter((world) => Boolean(world.mobileHotspot));
 const VIDEO_TRANSITIONS: Partial<Record<WorldId, { video: string; href: string }>> = {
   fries: { video: "/media/trinity/transitions/fries.mp4", href: "/trini-fries" },
   slush: { video: "/media/trinity/transitions/slush.mp4", href: "/trini-slush" },
-  // barberia, licores, arepas, rent (TriniHouse): pendientes.
+  barberia: { video: "/media/trinity/transitions/barberia.mp4", href: "/trini-barberia" },
+  // licores, arepas, rent (TriniHouse): pendientes.
 };
 
 const videoIslands = islands.filter((world) => VIDEO_TRANSITIONS[world.id]);
