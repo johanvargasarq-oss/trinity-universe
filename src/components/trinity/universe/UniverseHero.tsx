@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { worldList, type WorldId } from "@/lib/brands";
 import { PortalSceneProvider } from "@/components/trinity/portal/scene-context";
@@ -47,6 +47,31 @@ export default function UniverseHero() {
   const router = useRouter();
   const [activeTransition, setActiveTransition] = useState<WorldId | null>(null);
   const videoRefs = useRef<Partial<Record<WorldId, HTMLVideoElement | null>>>({});
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Algunos navegadores moviles (Low Power Mode de iOS, ciertos webviews)
+  // bloquean el autoplay incluso con muted+playsInline y dejan el boton de
+  // play nativo. Forzamos el play apenas monta y, si el navegador lo
+  // rechaza, reintentamos en el primer toque/click que haga el usuario en
+  // cualquier parte de la pantalla — asi arranca solo, sin que el usuario
+  // tenga que encontrar y tocar el boton del video.
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    const tryPlay = () => {
+      video.play().catch(() => {});
+    };
+    tryPlay();
+
+    document.addEventListener("touchstart", tryPlay, { once: true, passive: true });
+    document.addEventListener("pointerdown", tryPlay, { once: true });
+    return () => {
+      document.removeEventListener("touchstart", tryPlay);
+      document.removeEventListener("pointerdown", tryPlay);
+    };
+  }, []);
 
   function handleEnter(worldId: WorldId) {
     if (activeTransition) return;
@@ -64,6 +89,7 @@ export default function UniverseHero() {
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative h-full" style={{ width: "min(100%, calc(100vh * 9 / 16))" }}>
           <video
+            ref={heroVideoRef}
             className="absolute inset-0 h-full w-full object-cover"
             src="/media/trinity/universe-hero.mp4"
             autoPlay
