@@ -2,38 +2,61 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { worldList } from "@/lib/brands";
+import { worldList, type WorldId } from "@/lib/brands";
 import { PortalSceneProvider } from "@/components/trinity/portal/scene-context";
 import IslandHotspot from "@/components/trinity/IslandHotspot";
-import FriesHotspot from "@/components/trinity/universe/FriesHotspot";
+import VideoTransitionHotspot from "@/components/trinity/universe/VideoTransitionHotspot";
 
 // Solo los negocios que ya tienen su isla calibrada en el video vertical
 // (Trini Vapers todavia no aparece en el arte, igual que en el mapa viejo).
 const islands = worldList.filter((world) => Boolean(world.mobileHotspot));
-const friesWorld = islands.find((world) => world.id === "fries")!;
-const otherIslands = islands.filter((world) => world.id !== "fries");
 
 /**
- * Fase 3: el video del universo sigue siendo el hero de fondo. Trini Fries
- * es la unica isla con interaccion completa por ahora: hover/focus la
+ * Islas que ya tienen su propio video de transicion cinematografica hacia
+ * la pagina interna real del negocio (en vez del "wash" de color generico
+ * que usan las demas via IslandHotspot).
+ *
+ * Para agregar una isla nueva a este sistema:
+ *   1. Poner su video en public/media/trinity/transitions/<worldId>.mp4
+ *      (no se re-renderiza ni se modifica, se usa tal cual).
+ *   2. Agregar aca su entrada con la ruta real de la pagina del negocio.
+ *   3. Si esa pagina todavia no existe, crearla junto con un layout.tsx
+ *      con data-world="<worldId>" (ver src/app/trini-fries para el patron).
+ *
+ * Las islas que no estan en este mapa siguen usando IslandHotspot sin
+ * ningun cambio de comportamiento.
+ */
+const VIDEO_TRANSITIONS: Partial<Record<WorldId, { video: string; href: string }>> = {
+  fries: { video: "/media/trinity/transitions/fries.mp4", href: "/trini-fries" },
+  slush: { video: "/media/trinity/transitions/slush.mp4", href: "/trini-slush" },
+  // barberia, licores, arepas, rent (TriniHouse): pendientes.
+};
+
+const videoIslands = islands.filter((world) => VIDEO_TRANSITIONS[world.id]);
+const washIslands = islands.filter((world) => !VIDEO_TRANSITIONS[world.id]);
+
+/**
+ * El video del universo sigue siendo el hero de fondo. Las islas listadas
+ * en VIDEO_TRANSITIONS tienen interaccion completa: hover/focus las
  * resalta (y atenua el resto via el mismo focusedWorldId compartido), y el
- * click hace un crossfade hacia el video de transicion de Trini Fries;
- * al terminar ese video, navega a /trini-fries. Las demas islas siguen
- * usando IslandHotspot tal como estaba (sin cambios de comportamiento).
+ * click hace un crossfade hacia su propio video de transicion; al
+ * terminar ese video, navega a su pagina real. El resto de las islas
+ * siguen usando IslandHotspot tal como estaba.
  */
 export default function UniverseHero() {
   const router = useRouter();
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const transitionVideoRef = useRef<HTMLVideoElement>(null);
+  const [activeTransition, setActiveTransition] = useState<WorldId | null>(null);
+  const videoRefs = useRef<Partial<Record<WorldId, HTMLVideoElement | null>>>({});
 
-  function handleFriesEnter() {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    transitionVideoRef.current?.play();
+  function handleEnter(worldId: WorldId) {
+    if (activeTransition) return;
+    setActiveTransition(worldId);
+    videoRefs.current[worldId]?.play();
   }
 
-  function handleTransitionEnded() {
-    router.push("/trini-fries");
+  function handleEnded(worldId: WorldId) {
+    const config = VIDEO_TRANSITIONS[worldId];
+    if (config) router.push(config.href);
   }
 
   return (
@@ -50,32 +73,44 @@ export default function UniverseHero() {
             preload="auto"
           />
 
-          {/* Video de transicion de Trini Fries: precargado y en pausa desde
-              el inicio para que el click lo arranque al instante, sin salto
-              a negro. Se superpone al video del universo con un crossfade. */}
-          <video
-            ref={transitionVideoRef}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-out ${
-              isTransitioning ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            src="/media/trinity/fries-transition.mp4"
-            muted
-            playsInline
-            preload="auto"
-            onEnded={handleTransitionEnded}
-          />
+          {/* Cada video de transicion esta precargado y en pausa desde el
+              inicio para que el click lo arranque al instante, sin salto a
+              negro. Se superpone al video del universo con un crossfade. */}
+          {videoIslands.map((world) => {
+            const config = VIDEO_TRANSITIONS[world.id]!;
+            const isActive = activeTransition === world.id;
+            return (
+              <video
+                key={world.id}
+                ref={(el) => {
+                  videoRefs.current[world.id] = el;
+                }}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-out ${
+                  isActive ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+                src={config.video}
+                muted
+                playsInline
+                preload="auto"
+                onEnded={() => handleEnded(world.id)}
+              />
+            );
+          })}
 
-          <div className={isTransitioning ? "pointer-events-none" : undefined}>
+          <div className={activeTransition ? "pointer-events-none" : undefined}>
             <PortalSceneProvider isMobile>
-              {otherIslands.map((world) => (
+              {washIslands.map((world) => (
                 <IslandHotspot key={world.id} world={world} hotspot={world.mobileHotspot} />
               ))}
-              <FriesHotspot
-                world={friesWorld}
-                hotspot={friesWorld.mobileHotspot!}
-                disabled={isTransitioning}
-                onEnter={handleFriesEnter}
-              />
+              {videoIslands.map((world) => (
+                <VideoTransitionHotspot
+                  key={world.id}
+                  world={world}
+                  hotspot={world.mobileHotspot!}
+                  disabled={activeTransition !== null}
+                  onEnter={() => handleEnter(world.id)}
+                />
+              ))}
             </PortalSceneProvider>
           </div>
         </div>

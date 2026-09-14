@@ -5,17 +5,22 @@ import type { WorldConfig } from "@/lib/brands";
 import { usePortalScene } from "@/components/trinity/portal/scene-context";
 
 /**
- * Zona interactiva invisible sobre la isla de Trini Fries en el video del
- * universo. A diferencia de IslandHotspot (que dispara la transicion
- * generica de "wash" de color + navegacion directa), el click aqui solo
- * avisa a UniverseHero via `onEnter` — es UniverseHero quien controla el
- * crossfade hacia el video de Trini Fries y navega al terminar.
+ * Zona interactiva invisible sobre una isla del video del universo, para
+ * las islas que ya tienen su propio video de transicion cinematografica
+ * (ver VIDEO_TRANSITIONS en UniverseHero.tsx). A diferencia de
+ * IslandHotspot (que dispara la transicion generica de "wash" de color +
+ * navegacion directa), el click aqui solo avisa a UniverseHero via
+ * `onEnter` — es UniverseHero quien controla el crossfade hacia el video
+ * de esa isla y navega al terminar.
  *
  * Comparte `focusedWorldId` con PortalSceneProvider, asi que al enfocar
- * Trini Fries las demas islas (IslandHotspot) se atenuan solas, sin tocar
- * su codigo.
+ * esta isla las demas (IslandHotspot u otro VideoTransitionHotspot) se
+ * atenuan solas, sin tocar su codigo. El hover/glow es solo mientras se
+ * elige la isla: al hacer click se limpia el foco de inmediato para que
+ * ninguna animacion CSS quede corriendo sobre las islas durante el video
+ * de transicion (esa animacion ya vive dentro del video).
  */
-export default function FriesHotspot({
+export default function VideoTransitionHotspot({
   world,
   hotspot,
   disabled,
@@ -39,11 +44,17 @@ export default function FriesHotspot({
     if (focusedWorldId === world.id) setFocusedWorldId(null);
   }
 
+  function handleClick() {
+    if (disabled) return;
+    setFocusedWorldId(null);
+    onEnter();
+  }
+
   return (
     <motion.button
       type="button"
       disabled={disabled}
-      onClick={onEnter}
+      onClick={handleClick}
       onMouseEnter={focus}
       onMouseLeave={unfocus}
       onFocus={focus}
