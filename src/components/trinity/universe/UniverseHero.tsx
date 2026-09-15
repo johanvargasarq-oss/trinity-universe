@@ -58,6 +58,11 @@ export default function UniverseHero() {
   // rechaza, reintentamos en el primer toque/click que haga el usuario en
   // cualquier parte de la pantalla — asi arranca solo, sin que el usuario
   // tenga que encontrar y tocar el boton del video.
+  //
+  // Se escucha en fase de captura (y en varios eventos) porque el overlay
+  // nativo de "play" de Safari puede consumir el toque antes de que
+  // burbujee hasta document en fase normal; la captura se dispara primero,
+  // asi que igual alcanzamos a lanzar play() dentro del mismo gesto real.
   useEffect(() => {
     const video = heroVideoRef.current;
     if (!video) return;
@@ -66,13 +71,22 @@ export default function UniverseHero() {
     const tryPlay = () => {
       video.play().catch(() => {});
     };
-    tryPlay();
 
-    document.addEventListener("touchstart", tryPlay, { once: true, passive: true });
-    document.addEventListener("pointerdown", tryPlay, { once: true });
+    function removeListeners() {
+      document.removeEventListener("touchstart", tryPlay, true);
+      document.removeEventListener("pointerdown", tryPlay, true);
+      document.removeEventListener("click", tryPlay, true);
+    }
+
+    tryPlay();
+    document.addEventListener("touchstart", tryPlay, { capture: true, passive: true });
+    document.addEventListener("pointerdown", tryPlay, { capture: true });
+    document.addEventListener("click", tryPlay, { capture: true });
+    video.addEventListener("playing", removeListeners);
+
     return () => {
-      document.removeEventListener("touchstart", tryPlay);
-      document.removeEventListener("pointerdown", tryPlay);
+      removeListeners();
+      video.removeEventListener("playing", removeListeners);
     };
   }, []);
 
