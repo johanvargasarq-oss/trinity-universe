@@ -7,9 +7,9 @@
       "titulo": "Elige tu base",
       "seleccion": "una",
       "opciones": [
-        { "id": "carne", "nombre": "Arepa de Carne", "precio": 10500, "imagen": "/media/arepas/hero.png" },
-        { "id": "pollo", "nombre": "Arepa de Pollo", "precio": 8500, "imagen": "/media/arepas/hero.png" },
-        { "id": "mixta", "nombre": "Arepa Mixta", "precio": 13500, "imagen": "/media/arepas/hero.png" }
+        { "id": "carne", "nombre": "Arepa de Carne", "precio": 10500, "imagen": "/media/arepas/hero.webp" },
+        { "id": "pollo", "nombre": "Arepa de Pollo", "precio": 8500, "imagen": "/media/arepas/hero.webp" },
+        { "id": "mixta", "nombre": "Arepa Mixta", "precio": 13500, "imagen": "/media/arepas/hero.webp" }
       ]
     },
     {

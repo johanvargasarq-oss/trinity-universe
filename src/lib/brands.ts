@@ -71,9 +71,9 @@ export const worlds: Record<WorldId, WorldConfig> = {
       border: "rgba(245, 245, 245, 0.14)",
     },
     media: {
-      heroImage: "/media/barberia/hero-team.png",
-      heroImageMobile: "/media/barberia/hero-mobile.png",
-      cardImage: "/media/barberia/hero-team.png",
+      heroImage: "/media/barberia/hero-team.webp",
+      heroImageMobile: "/media/barberia/hero-mobile.webp",
+      cardImage: "/media/barberia/hero-team.webp",
     },
     contact: {
       addresses: [
@@ -152,8 +152,8 @@ export const worlds: Record<WorldId, WorldConfig> = {
       border: "rgba(148, 217, 255, 0.18)",
     },
     media: {
-      heroImage: "/media/slush/hero.png",
-      cardImage: "/media/slush/hero.png",
+      heroImage: "/media/slush/hero.webp",
+      cardImage: "/media/slush/hero.webp",
     },
     contact: {
       instagram: { handle: "@trinislush", url: "https://instagram.com/trinislush" },
@@ -182,8 +182,8 @@ export const worlds: Record<WorldId, WorldConfig> = {
       border: "rgba(201, 129, 47, 0.2)",
     },
     media: {
-      heroImage: "/media/arepas/hero.png",
-      cardImage: "/media/arepas/hero.png",
+      heroImage: "/media/arepas/hero.webp",
+      cardImage: "/media/arepas/hero.webp",
     },
     contact: {
       addresses: [

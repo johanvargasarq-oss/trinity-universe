@@ -3,8 +3,8 @@
     "_nota": "Precios reales, tomados de la foto oficial enviada por el cliente.",
     "descripcion": "Compra tu vaso coleccionable Trinity una vez y recárgalo cada vez que quieras a precio especial.",
     "opciones": [
-      { "id": "vaso-clasico", "nombre": "Vaso Clásico", "precioCompra": 28000, "precioRecarga": 12000, "imagen": "/media/slush/hero.png" },
-      { "id": "vaso-xl", "nombre": "Vaso XL", "precioCompra": 38000, "precioRecarga": 17000, "imagen": "/media/slush/hero.png" }
+      { "id": "vaso-clasico", "nombre": "Vaso Clásico", "precioCompra": 28000, "precioRecarga": 12000, "imagen": "/media/slush/hero.webp" },
+      { "id": "vaso-xl", "nombre": "Vaso XL", "precioCompra": 38000, "precioRecarga": 17000, "imagen": "/media/slush/hero.webp" }
     ]
   },
   "sabores": {
