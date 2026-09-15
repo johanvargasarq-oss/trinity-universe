@@ -31,7 +31,8 @@ const VIDEO_TRANSITIONS: Partial<Record<WorldId, { video: string; href: string }
   slush: { video: "/media/trinity/transitions/slush.mp4", href: "/trini-slush" },
   barberia: { video: "/media/trinity/transitions/barberia.mp4", href: "/trini-barberia" },
   rent: { video: "/media/trinity/transitions/rent.mp4", href: "/rent/trini-house" },
-  // licores, arepas: pendientes.
+  arepas: { video: "/media/trinity/transitions/arepas.mp4", href: "/trini-arepas" },
+  // licores: pendiente.
 };
 
 const videoIslands = islands.filter((world) => VIDEO_TRANSITIONS[world.id]);
