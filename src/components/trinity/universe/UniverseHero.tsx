@@ -90,6 +90,21 @@ export default function UniverseHero() {
     };
   }, []);
 
+  // Los 6 videos de transicion NO se precargan al entrar (preload="none"):
+  // bajarlos todos de una junto con el video del universo satura datos/CPU
+  // del celular desde el primer segundo, aunque el usuario use como mucho
+  // uno. En su lugar, arrancamos el buffer de UNO solo cuando el usuario
+  // muestra intencion real sobre esa isla (primer hover/focus/touch).
+  function handlePreload(worldId: WorldId) {
+    const video = videoRefs.current[worldId];
+    if (!video || video.preload === "auto") return;
+    // preload="none" en el markup evita la descarga de arranque; cambiar a
+    // "auto" + load() recien aca es lo que realmente le pide al navegador
+    // que empiece a bufferizar este video puntual.
+    video.preload = "auto";
+    video.load();
+  }
+
   function handleEnter(worldId: WorldId) {
     if (activeTransition) return;
     setActiveTransition(worldId);
@@ -116,9 +131,12 @@ export default function UniverseHero() {
             preload="auto"
           />
 
-          {/* Cada video de transicion esta precargado y en pausa desde el
-              inicio para que el click lo arranque al instante, sin salto a
-              negro. Se superpone al video del universo con un crossfade. */}
+          {/* Cada video de transicion empieza sin descargar nada
+              (preload="none") y se pone en pausa una vez que el usuario
+              enfoca esa isla (VideoTransitionHotspot llama a handlePreload
+              en el primer hover/touch), asi el click lo arranca casi al
+              instante sin haber tenido que bajar los 6 videos de una. Se
+              superpone al video del universo con un crossfade. */}
           {videoIslands.map((world) => {
             const config = VIDEO_TRANSITIONS[world.id]!;
             const isActive = activeTransition === world.id;
@@ -134,7 +152,7 @@ export default function UniverseHero() {
                 src={config.video}
                 muted
                 playsInline
-                preload="auto"
+                preload="none"
                 onEnded={() => handleEnded(world.id)}
               />
             );
@@ -152,6 +170,7 @@ export default function UniverseHero() {
                   hotspot={world.mobileHotspot!}
                   disabled={activeTransition !== null}
                   onEnter={() => handleEnter(world.id)}
+                  onHoverStart={() => handlePreload(world.id)}
                 />
               ))}
             </PortalSceneProvider>

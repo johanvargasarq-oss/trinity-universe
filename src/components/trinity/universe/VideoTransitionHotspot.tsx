@@ -25,11 +25,14 @@ export default function VideoTransitionHotspot({
   hotspot,
   disabled,
   onEnter,
+  onHoverStart,
 }: {
   world: WorldConfig;
   hotspot: { x: number; y: number; w: number; h: number };
   disabled: boolean;
   onEnter: () => void;
+  /** Isla enfocada por primera vez: buena señal para empezar a bufferizar su video de transicion antes del click. */
+  onHoverStart?: () => void;
 }) {
   const { focusedWorldId, setFocusedWorldId, prefersReducedMotion } = usePortalScene();
   const isFocused = focusedWorldId === world.id;
@@ -37,6 +40,7 @@ export default function VideoTransitionHotspot({
 
   function focus() {
     if (disabled) return;
+    if (focusedWorldId !== world.id) onHoverStart?.();
     setFocusedWorldId(world.id);
   }
 
