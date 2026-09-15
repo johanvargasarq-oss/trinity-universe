@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { ensureGsapRegistered, gsap, ScrollTrigger } from "@/lib/gsap";
 import { useTransitionStore } from "@/lib/transition-store";
@@ -12,8 +13,16 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
   const lenisRef = useRef<Lenis | null>(null);
   const [lenisInstance, setLenisInstance] = useState<Lenis | null>(null);
   const phase = useTransitionStore((s) => s.phase);
+  // El universo ("/") es una escena fullscreen fija que nunca hace scroll:
+  // arrancar el ticker de Lenis/GSAP ahi corre calculos de scroll en cada
+  // frame para siempre, sin ningun beneficio, compitiendo con el video y
+  // las animaciones de las islas. Las demas rutas si scrollean y si lo
+  // necesitan (catalogos, ScrollTrigger de las paginas de cada negocio).
+  const pathname = usePathname();
+  const isUniverse = pathname === "/";
 
   useEffect(() => {
+    if (isUniverse) return;
     ensureGsapRegistered();
 
     const lenis = new Lenis({
@@ -37,7 +46,10 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       lenisRef.current = null;
       setLenisInstance(null);
     };
-  }, []);
+    // Se re-ejecuta cuando isUniverse cambia (navegacion cliente entre "/"
+    // y una pagina de negocio, sin remount de este provider raiz): arranca
+    // el ticker al salir del universo, lo apaga la (cleanup) al volver.
+  }, [isUniverse]);
 
   useEffect(() => {
     const lenis = lenisRef.current;

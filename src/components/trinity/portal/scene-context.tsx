@@ -1,17 +1,10 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { WorldId } from "@/lib/brands";
 import { RETURNING_KEY } from "./focus-constants";
 
-export interface PortalPointer {
-  /** -1..1, 0 = center. Only updates on fine-pointer (mouse) devices. */
-  x: number;
-  y: number;
-}
-
 export interface PortalSceneState {
-  pointer: PortalPointer;
   prefersReducedMotion: boolean;
   isTouch: boolean;
   /** Which hotspot layout (world.hotspot vs world.mobileHotspot) is currently on screen. */
@@ -31,7 +24,6 @@ export interface PortalSceneState {
  * this same context — no changes needed here or in the hotspot/data layer.
  */
 const PortalSceneContext = createContext<PortalSceneState>({
-  pointer: { x: 0, y: 0 },
   prefersReducedMotion: false,
   isTouch: false,
   isMobile: false,
@@ -50,13 +42,11 @@ export function PortalSceneProvider({
   children: React.ReactNode;
   isMobile: boolean;
 }) {
-  const [pointer, setPointer] = useState<PortalPointer>({ x: 0, y: 0 });
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
   const [isLowPower, setIsLowPower] = useState(false);
   const [focusedWorldId, setFocusedWorldId] = useState<WorldId | null>(null);
   const [isReturning, setIsReturning] = useState(false);
-  const frame = useRef<number | null>(null);
 
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -78,26 +68,6 @@ export function PortalSceneProvider({
     };
   }, []);
 
-  useEffect(() => {
-    if (isTouch || prefersReducedMotion) return;
-
-    const onMove = (e: PointerEvent) => {
-      if (frame.current) cancelAnimationFrame(frame.current);
-      frame.current = requestAnimationFrame(() => {
-        setPointer({
-          x: (e.clientX / window.innerWidth) * 2 - 1,
-          y: (e.clientY / window.innerHeight) * 2 - 1,
-        });
-      });
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      if (frame.current) cancelAnimationFrame(frame.current);
-    };
-  }, [isTouch, prefersReducedMotion]);
-
   // If we just navigated back from a world (TrinityCorner sets this before
   // pushing to "/"), briefly re-focus that island so energy visibly
   // "returns to the core" instead of the portal just appearing neutral.
@@ -116,7 +86,7 @@ export function PortalSceneProvider({
 
   return (
     <PortalSceneContext.Provider
-      value={{ pointer, prefersReducedMotion, isTouch, isMobile, isLowPower, focusedWorldId, setFocusedWorldId, isReturning }}
+      value={{ prefersReducedMotion, isTouch, isMobile, isLowPower, focusedWorldId, setFocusedWorldId, isReturning }}
     >
       {children}
     </PortalSceneContext.Provider>
