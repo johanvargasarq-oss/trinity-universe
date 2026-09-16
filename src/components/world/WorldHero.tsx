@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import Image from "next/image";
 import type { WorldConfig } from "@/lib/brands";
 
 export default function WorldHero({ world }: { world: WorldConfig }) {
@@ -19,22 +20,30 @@ export default function WorldHero({ world }: { world: WorldConfig }) {
           />
         ) : world.media.heroImageMobile ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            {/* Dos archivos distintos por breakpoint (no dos tamaños de la
+                misma foto), asi que no se puede resolver con un solo <Image
+                sizes=...>. Sin `priority` en ninguna, next/image las deja en
+                lazy loading nativo: la oculta por `sm:hidden`/`hidden
+                sm:block` no tiene bounding box mientras esta display:none,
+                asi que el navegador nunca la pide — solo baja la que de
+                verdad esta visible en el viewport actual. */}
+            <Image
               src={world.media.heroImageMobile}
               alt={world.name}
-              className="h-full w-full object-cover sm:hidden"
+              fill
+              sizes="100vw"
+              className="object-cover sm:hidden"
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={world.media.heroImage}
               alt={world.name}
-              className="hidden h-full w-full object-cover sm:block"
+              fill
+              sizes="100vw"
+              className="hidden object-cover sm:block"
             />
           </>
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={world.media.heroImage} alt={world.name} className="h-full w-full object-cover" />
+          <Image src={world.media.heroImage} alt={world.name} fill sizes="100vw" priority className="object-cover" />
         )}
         <div
           className="absolute inset-0"

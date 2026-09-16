@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ensureGsapRegistered } from "@/lib/gsap";
 import type { WorldConfig } from "@/lib/brands";
@@ -30,6 +30,40 @@ export default function WorldServices({
   bookingHref?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoInView, setVideoInView] = useState(false);
+
+  // El video de Servicios no se descarga al cargar la pagina (preload="none"
+  // en el markup evita el fetch de arranque): recien cuando la seccion esta
+  // por entrar en el viewport pedimos el buffer real, igual que los videos
+  // de transicion del universo en UniverseHero.tsx (preload="none" +
+  // video.load() disparado por la señal de intencion del usuario — alli es
+  // el hover/touch sobre una isla, aca es la seccion acercandose en el
+  // scroll).
+  useEffect(() => {
+    if (!video) return;
+    const node = containerRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setVideoInView(true);
+        observer.disconnect();
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [video]);
+
+  useEffect(() => {
+    if (!videoInView) return;
+    const el = videoRef.current;
+    if (!el) return;
+    el.preload = "auto";
+    el.load();
+    el.play().catch(() => {});
+  }, [videoInView]);
 
   useGSAP(
     () => {
@@ -101,11 +135,12 @@ export default function WorldServices({
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
         <div className="relative rounded-2xl overflow-hidden aspect-[4/5] lg:aspect-auto lg:self-stretch lg:min-h-[560px]">
           <video
+            ref={videoRef}
             src={video}
-            autoPlay
             muted
             loop
             playsInline
+            preload="none"
             className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
