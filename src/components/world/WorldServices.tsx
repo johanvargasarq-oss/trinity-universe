@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ensureGsapRegistered } from "@/lib/gsap";
 import type { WorldConfig } from "@/lib/brands";
+import { isVideoPreloading } from "@/lib/video-preload";
 
 export interface Service {
   title: string;
@@ -31,17 +32,25 @@ export default function WorldServices({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoInView, setVideoInView] = useState(false);
+  const hasLoadedRef = useRef(false);
+  // Si el click en la isla (UniverseHero.tsx -> src/lib/video-preload.ts) ya
+  // disparo la descarga de este mismo video mientras corria la transicion,
+  // no hace falta esperar a que la seccion se acerque en el scroll: ya
+  // arrancamos "en vista" desde el primer render.
+  const [videoInView, setVideoInView] = useState(() => Boolean(video && isVideoPreloading(video)));
 
   // El video de Servicios no se descarga al cargar la pagina (preload="none"
-  // en el markup evita el fetch de arranque): recien cuando la seccion esta
-  // por entrar en el viewport pedimos el buffer real, igual que los videos
-  // de transicion del universo en UniverseHero.tsx (preload="none" +
-  // video.load() disparado por la señal de intencion del usuario — alli es
-  // el hover/touch sobre una isla, aca es la seccion acercandose en el
-  // scroll).
+  // en el markup evita el fetch de arranque). Hay dos señales independientes
+  // que lo activan, igual que los videos de transicion del universo en
+  // UniverseHero.tsx (preload="none" + load() disparado por una señal real
+  // de intencion, nunca de entrada):
+  //   1. Scroll: este observer, cuando la seccion esta por entrar en viewport.
+  //   2. Click en la isla: ver el useState de arriba.
+  // Ambas señales convergen en el mismo estado `videoInView`, asi que el
+  // efecto de abajo (con su propio hasLoadedRef) solo dispara load() una vez
+  // sin importar cual de las dos llego primero.
   useEffect(() => {
-    if (!video) return;
+    if (!video || videoInView) return;
     const node = containerRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(
@@ -54,15 +63,21 @@ export default function WorldServices({
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [video]);
+  }, [video, videoInView]);
 
   useEffect(() => {
-    if (!videoInView) return;
+    if (!videoInView || hasLoadedRef.current) return;
     const el = videoRef.current;
     if (!el) return;
+    hasLoadedRef.current = true;
+
+    function tryPlay() {
+      el!.play().catch(() => {});
+    }
+    el.addEventListener("canplay", tryPlay, { once: true });
     el.preload = "auto";
     el.load();
-    el.play().catch(() => {});
+    return () => el.removeEventListener("canplay", tryPlay);
   }, [videoInView]);
 
   useGSAP(

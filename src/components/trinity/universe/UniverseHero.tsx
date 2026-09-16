@@ -6,6 +6,7 @@ import { worldList, type WorldId } from "@/lib/brands";
 import { PortalSceneProvider } from "@/components/trinity/portal/scene-context";
 import IslandHotspot from "@/components/trinity/IslandHotspot";
 import VideoTransitionHotspot from "@/components/trinity/universe/VideoTransitionHotspot";
+import { preloadVideo } from "@/lib/video-preload";
 
 // Solo los negocios que ya tienen su isla calibrada en el video vertical
 // (Trini Vapers todavia no aparece en el arte, igual que en el mapa viejo).
@@ -26,10 +27,20 @@ const islands = worldList.filter((world) => Boolean(world.mobileHotspot));
  * Las islas que no estan en este mapa siguen usando IslandHotspot sin
  * ningun cambio de comportamiento.
  */
-const VIDEO_TRANSITIONS: Partial<Record<WorldId, { video: string; href: string }>> = {
+const VIDEO_TRANSITIONS: Partial<
+  Record<WorldId, { video: string; href: string; preload?: string[] }>
+> = {
   fries: { video: "/media/trinity/transitions/fries.mp4", href: "/trini-fries" },
   slush: { video: "/media/trinity/transitions/slush.mp4", href: "/trini-slush" },
-  barberia: { video: "/media/trinity/transitions/barberia.mp4", href: "/trini-barberia" },
+  // `preload`: assets pesados de la pagina de destino que conviene empezar a
+  // bajar ya mismo, en paralelo con los ~5s de transicion cinematografica,
+  // para que esten listos (o casi) cuando el usuario realmente los vea. Ver
+  // handleEnter mas abajo y src/lib/video-preload.ts.
+  barberia: {
+    video: "/media/trinity/transitions/barberia.mp4",
+    href: "/trini-barberia",
+    preload: ["/media/barberia/services-video.mp4"],
+  },
   rent: { video: "/media/trinity/transitions/rent.mp4", href: "/rent/trini-house" },
   arepas: { video: "/media/trinity/transitions/arepas.mp4", href: "/trini-arepas" },
   licores: { video: "/media/trinity/transitions/licores.mp4", href: "/trini-licores" },
@@ -109,6 +120,11 @@ export default function UniverseHero() {
     if (activeTransition) return;
     setActiveTransition(worldId);
     videoRefs.current[worldId]?.play();
+    // El click ya confirma hacia donde va el usuario, asi que aprovechamos
+    // los ~5s de esta transicion (mas lo que dure el scroll hasta esa
+    // seccion en la pagina de destino) para bajar en paralelo los videos
+    // pesados que esa pagina va a necesitar.
+    VIDEO_TRANSITIONS[worldId]?.preload?.forEach(preloadVideo);
   }
 
   function handleEnded(worldId: WorldId) {
