@@ -2,11 +2,11 @@ import { hashGetAll, hashSet, hashDelete } from "./redis-client";
 
 const HASH_KEY = "trinity:orders";
 
-export type OrderWorldId = "fries" | "arepas" | "slush" | "licores" | "vapers";
+export type OrderWorldId = "fries" | "slush" | "licores" | "vapers";
 export type OrderEstado = "pendiente" | "preparando" | "listo" | "entregado" | "cancelado";
 
 export interface OrderLineSnapshot {
-  label: string; // e.g. "Trini Clasic" or "Arepa de Pollo + Chorizo, Queso costeño"
+  label: string; // e.g. "Trini Clasic" or "Trini Fries (30 cm)"
   quantity: number;
   unitPrice: number;
 }

@@ -63,16 +63,6 @@
   --world-border: rgba(148, 217, 255, 0.18);
 }
 
-[data-world="arepas"] {
-  --world-bg: #1b120a;
-  --world-bg-alt: #24170d;
-  --world-accent: #c9812f;
-  --world-accent-soft: rgba(201, 129, 47, 0.18);
-  --world-text: #f5ead9;
-  --world-text-muted: #bfa07e;
-  --world-border: rgba(201, 129, 47, 0.2);
-}
-
 [data-world="rent"] {
   --world-bg: #04191c;
   --world-bg-alt: #07272b;

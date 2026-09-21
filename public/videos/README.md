@@ -9,7 +9,6 @@ public/videos/barberia/hero.mp4       -> video principal del hero
 public/videos/barberia/gallery-1.mp4  -> videos cortos para la galería (opcional)
 public/videos/fries/hero.mp4
 public/videos/slush/hero.mp4
-public/videos/arepas/hero.mp4
 public/videos/rent/hero.mp4
 public/videos/rent/gallery-1.mp4
 public/videos/rent/gallery-2.mp4
