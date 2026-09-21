@@ -1,5 +1,5 @@
 {
-  "_nota": "Transcrito directamente del menú oficial enviado por el cliente. Imágenes de producto pendientes — usan el placeholder de public/media/fries/hero.png hasta tener fotos reales en public/images/fries/.",
+  "_nota": "Transcrito directamente del menú oficial enviado por el cliente. Fotos reales cargadas para: TriniHouse, Trini Smash, Bucarafries, Trini Fries y Pan Relleno (ambos). Trini Clasic, Trini Mix, Trini Burger y Trini Mini siguen con el placeholder de public/media/fries/hero.png hasta tener fotos reales.",
   "whatsapp": "",
   "categorias": [
     {
@@ -11,7 +11,7 @@
           "nombre": "TriniHouse",
           "descripcion": "Pan suave, carne smash de 120 g jugosa, pollo desmechado en salsa de la casa, queso apanado crocante, tocineta caramelizada, chorizo de la casa y nuestra salsa especial. Acompañada de crujientes papas rizadas.",
           "precio": 31000,
-          "imagen": "/media/fries/hero.png",
+          "imagen": "/images/fries/trinihouse.png",
           "destacado": true
         }
       ]
@@ -32,7 +32,7 @@
           "nombre": "Trini Smash",
           "descripcion": "Doble jugosa smash, mix de quesos fundidos, tocineta, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
           "precio": 29900,
-          "imagen": "/media/fries/hero.png"
+          "imagen": "/images/fries/trini-smash.png"
         },
         {
           "id": "trini-mix",
@@ -44,7 +44,7 @@
         {
           "id": "trini-burger",
           "nombre": "Trini Burger",
-          "descripcion": "Jugosa carne crispy, mix de quesos fundidos, chorizo caramelizado, tocineta, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
+          "descripcion": "Jugosa carne smash, pollo crispy, mix de quesos fundidos, chorizo caramelizado, tocineta, cebolla crispy, pepinillos, salsas de la casa. Acompañada de crujientes papas rizadas.",
           "precio": 31000,
           "imagen": "/media/fries/hero.png"
         }
@@ -59,7 +59,7 @@
           "nombre": "Bucarafries",
           "descripcion": "Crujientes papas rizadas, pollo desmechado en tártara, trozos de salchicha caramelizada, mix de quesos fundidos, cebolla crispy, salsas de la casa y gaseosa.",
           "precio": 25000,
-          "imagen": "/media/fries/hero.png"
+          "imagen": "/images/fries/bucarafries.png"
         },
         {
           "id": "trini-mini",
@@ -73,7 +73,7 @@
           "nombre": "Trini Fries",
           "descripcion": "Crujientes papas rizadas, trozos de pollo crispy, chorizo caramelizado, maíz desgranado, mix de quesos fundidos, cebolla crispy, tocineta, salsas de la casa y gaseosa.",
           "precio": 29900,
-          "imagen": "/media/fries/hero.png"
+          "imagen": "/images/fries/trini-fries.png"
         }
       ]
     },
@@ -90,7 +90,7 @@
             { "nombre": "15 cm", "precio": 17500 },
             { "nombre": "30 cm", "precio": 32000 }
           ],
-          "imagen": "/media/fries/hero.png"
+          "imagen": "/images/fries/pan-relleno.jpg"
         },
         {
           "id": "pan-relleno-desmechado",
@@ -101,7 +101,7 @@
             { "nombre": "15 cm", "precio": 17500 },
             { "nombre": "30 cm", "precio": 32000 }
           ],
-          "imagen": "/media/fries/hero.png"
+          "imagen": "/images/fries/pan-relleno.jpg"
         }
       ]
     },
