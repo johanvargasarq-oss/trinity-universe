@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { saveOrder, type Order, type OrderWorldId } from "@/lib/db/orders";
 import { checkAdminAuth } from "@/lib/admin-auth-server";
 
-const VALID_WORLDS: OrderWorldId[] = ["fries", "slush"];
+const VALID_WORLDS: OrderWorldId[] = ["fries", "arepas", "slush"];
 
 /**
  * Lets staff log an in-person, already-paid sale from their phone so it

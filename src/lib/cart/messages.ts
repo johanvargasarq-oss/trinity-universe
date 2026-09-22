@@ -1,5 +1,6 @@
 import type { CartLine } from "./createCartStore";
 import type { FriesCartItem } from "./fries-cart";
+import type { ArepaCartItem } from "./arepas-cart";
 import type { SlushCartItem } from "./slush-cart";
 import type { LicoresCartItem } from "./licores-cart";
 import type { VapersCartItem } from "./vapers-cart";
@@ -30,6 +31,32 @@ export function buildFriesOrderMessage(
 
   return (
     `🍟 NUEVO PEDIDO — TriniFries\n\n` +
+    `👤 Nombre: ${customerName}\n\n` +
+    deliveryLine(deliveryType, deliveryAddress) +
+    `${items}\n\n` +
+    (notes ? `📝 Observaciones: ${notes}\n\n` : "") +
+    `💰 Total: ${currency.format(total)}`
+  );
+}
+
+export function buildArepasOrderMessage(
+  lines: CartLine<ArepaCartItem>[],
+  notes: string,
+  total: number,
+  customerName: string,
+  deliveryType: DeliveryType,
+  deliveryAddress: string
+): string {
+  const items = lines
+    .map((l) => {
+      const adiciones = l.item.adiciones.length ? `\n   + ${l.item.adiciones.map((a) => a.nombre).join(", ")}` : "";
+      const salsas = l.item.salsas.length ? `\n   🥫 ${l.item.salsas.map((s) => s.nombre).join(", ")}` : "";
+      return `• ${l.quantity}x ${l.item.baseName}${adiciones}${salsas} — ${currency.format(l.unitPrice * l.quantity)}`;
+    })
+    .join("\n\n");
+
+  return (
+    `🌮 NUEVO PEDIDO — TriniArepas\n\n` +
     `👤 Nombre: ${customerName}\n\n` +
     deliveryLine(deliveryType, deliveryAddress) +
     `${items}\n\n` +

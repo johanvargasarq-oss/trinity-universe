@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "Trinity | Universo de marcas — Bucaramanga",
   },
   description:
-    "Trinity es el universo de marcas de Bucaramanga: Barbería, TriniFries, TriniSlush y TriniRent. Elige tu experiencia.",
+    "Trinity es el universo de marcas de Bucaramanga: Barbería, TriniFries, TriniSlush, TriniArepas y TriniRent. Elige tu experiencia.",
 };
 
 export default function RootLayout({

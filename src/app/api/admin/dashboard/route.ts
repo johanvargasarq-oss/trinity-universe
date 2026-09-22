@@ -58,6 +58,7 @@ export async function GET(req: NextRequest) {
     const ingresosPorNegocio = {
       barberia: bookings.filter((b) => b.estado !== "cancelada").reduce((s, b) => s + b.total, 0),
       fries: orders.filter((o) => o.worldId === "fries" && o.estado !== "cancelado").reduce((s, o) => s + o.total, 0),
+      arepas: orders.filter((o) => o.worldId === "arepas" && o.estado !== "cancelado").reduce((s, o) => s + o.total, 0),
       slush: orders.filter((o) => o.worldId === "slush" && o.estado !== "cancelado").reduce((s, o) => s + o.total, 0),
       licores: orders.filter((o) => o.worldId === "licores" && o.estado !== "cancelado").reduce((s, o) => s + o.total, 0),
       vapers: orders.filter((o) => o.worldId === "vapers" && o.estado !== "cancelado").reduce((s, o) => s + o.total, 0),
@@ -65,6 +66,7 @@ export async function GET(req: NextRequest) {
 
     const pedidosPorNegocioHoy = {
       fries: ordersToday.filter((o) => o.worldId === "fries").length,
+      arepas: ordersToday.filter((o) => o.worldId === "arepas").length,
       slush: ordersToday.filter((o) => o.worldId === "slush").length,
       licores: ordersToday.filter((o) => o.worldId === "licores").length,
       vapers: ordersToday.filter((o) => o.worldId === "vapers").length,

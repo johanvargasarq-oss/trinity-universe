@@ -7,6 +7,7 @@ Convención de nombres esperada por `src/data/*.json` y los componentes de galer
 ```
 public/images/barberia/gallery-1.jpg ... gallery-N.jpg
 public/images/fries/product-<slug>.jpg   -> foto real de cada producto del menú
+public/images/arepas/product-<slug>.jpg
 public/images/slush/product-<slug>.jpg
 public/images/rent/gallery-1.jpg ... gallery-N.jpg
 ```

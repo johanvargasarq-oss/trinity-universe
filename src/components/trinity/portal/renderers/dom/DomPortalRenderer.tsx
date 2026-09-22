@@ -26,7 +26,7 @@ export default function DomPortalRenderer() {
       <div className="absolute inset-0" style={imageParallax}>
         <Image
           src="/media/trinity/portal-map-mobile.png"
-          alt="Universo Trinity: Barbería, Fries, Slush, Licores y Rent"
+          alt="Universo Trinity: Barbería, Fries, Slush, Arepas, Licores y Rent"
           fill
           priority
           className="object-contain sm:hidden"
@@ -34,7 +34,7 @@ export default function DomPortalRenderer() {
         />
         <Image
           src="/media/trinity/portal-map.png"
-          alt="Universo Trinity: Barbería, Fries, Slush y Rent"
+          alt="Universo Trinity: Barbería, Fries, Slush, Arepas y Rent"
           fill
           priority
           className="hidden object-cover sm:block"

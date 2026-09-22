@@ -42,6 +42,7 @@ const VIDEO_TRANSITIONS: Partial<
     preload: ["/media/barberia/services-video.mp4"],
   },
   rent: { video: "/media/trinity/transitions/rent.mp4", href: "/rent/trini-house" },
+  arepas: { video: "/media/trinity/transitions/arepas.mp4", href: "/trini-arepas" },
   licores: { video: "/media/trinity/transitions/licores.mp4", href: "/trini-licores" },
 };
 

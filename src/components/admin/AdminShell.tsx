@@ -9,6 +9,7 @@ const NAV = [
   { href: "/admin", label: "Dashboard", emoji: "📊" },
   { href: "/admin/barberia", label: "Barbería", emoji: "✂️" },
   { href: "/admin/fries", label: "TriniFries", emoji: "🍟" },
+  { href: "/admin/arepas", label: "TriniArepas", emoji: "🌮" },
   { href: "/admin/slush", label: "TriniSlush", emoji: "🥤" },
   { href: "/admin/licores", label: "Trini Licores", emoji: "🥃" },
   { href: "/admin/vapers", label: "Trini Vapers", emoji: "💨" },
